@@ -4,7 +4,7 @@ fen = turtle.Screen()
 fen.title('Jeu Quoridor')
 fen.setup(width=800, height=800)
 drawbitch = turtle.Turtle()
-
+wfjoabopAI
 
 # Faire une première ligne horizontale de 600 pixels :
 
