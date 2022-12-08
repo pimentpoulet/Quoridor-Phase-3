@@ -1,38 +1,195 @@
 import turtle
 
-
-class App:
-    def __init__(self, largeur, hauteur):
-        self.fen = turtle.Screen()
-        self.fen.setup(largeur, hauteur)
-        self.fen.onclick(self.changerOrientation, btn=1)
-        self.fen.onkeypress(self.changerModeEcriture, 'space')
-        self.fen.listen()
-        self.alex = turtle.Turtle()
-        self.alex.speed('fastest')
-        self.clic = None
-
-    def changerOrientation(self, x, y):
-        self.clic = turtle.Vec2D(x, y)
-
-    def changerModeEcriture(self):
-        self.fen.onkeypress(None, 'space')
-        if self.alex.isdown():
-            self.alex.penup()
-            self.alex.fillcolor('white')
-        else:
-            self.alex.pendown()
-            self.alex.fillcolor('black')
-        self.fen.onkeypress(self.changerModeEcriture, 'space')
-
-    def go(self):
-        if self.clic:
-            self.alex.setheading(self.alex.towards(self.clic))
-            self.clic = None
-        self.alex.forward(2)
-        turtle.ontimer(x.go, 0)
+fen = turtle.Screen()
+fen.title('Jeu Quoridor')
+fen.setup(width=800, height=800)
+drawbitch = turtle.Turtle()
 
 
-x = App(800, 600)
-turtle.ontimer(x.go, 0)
-turtle.mainloop()
+# Faire une première ligne horizontale de 600 pixels :
+
+drawbitch.forward(250)
+drawbitch.left(180)
+drawbitch.forward(500)
+
+
+# Faire une ligne verticale de 600 pixels :
+
+drawbitch.right(90)
+drawbitch.forward(250)
+drawbitch.right(180)
+drawbitch.forward(500)
+
+
+# Faire les lignes horizontales du damier :
+
+# Ligne du bas
+
+drawbitch.left(90)
+drawbitch.forward(500)
+
+drawbitch.left(90)
+drawbitch.forward(50)
+
+drawbitch.left(90)
+
+# Deuxième ligne
+
+drawbitch.forward(500)
+
+drawbitch.right(90)
+drawbitch.forward(50)
+
+drawbitch.right(90)
+
+# Troisième ligne
+
+drawbitch.forward(500)
+
+drawbitch.left(90)
+drawbitch.forward(50)
+
+drawbitch.left(90)
+
+# Quatrième ligne
+
+drawbitch.forward(500)
+
+drawbitch.right(90)
+drawbitch.forward(50)
+
+drawbitch.right(90)
+
+# Cinquième ligne
+
+drawbitch.forward(500)
+
+drawbitch.left(90)
+drawbitch.forward(50)
+
+drawbitch.left(90)
+
+# Sixième ligne
+
+drawbitch.forward(500)
+
+drawbitch.right(90)
+drawbitch.forward(50)
+
+drawbitch.right(90)
+
+# Septième ligne
+
+drawbitch.forward(500)
+
+drawbitch.left(90)
+drawbitch.forward(50)
+
+drawbitch.left(90)
+
+# Huitième ligne
+
+drawbitch.forward(500)
+
+drawbitch.right(90)
+drawbitch.forward(50)
+
+drawbitch.right(90)
+
+# Neuvième ligne
+
+drawbitch.forward(500)
+
+drawbitch.left(90)
+drawbitch.forward(50)
+
+drawbitch.left(90)
+
+# Dixième ligne
+
+drawbitch.forward(500)
+
+drawbitch.right(90)
+drawbitch.forward(50)
+
+drawbitch.right(90)
+
+# Onzième ligne
+
+drawbitch.forward(500)
+drawbitch.right(90)
+drawbitch.forward(50)
+
+
+# Faire les lignes verticales du damier :
+
+# Faire la première colonne
+
+drawbitch.forward(400)
+drawbitch.right(90)
+drawbitch.forward(50)
+drawbitch.right(90)
+drawbitch.forward(450)
+
+# Deuxième colonne
+
+drawbitch.left(90)
+drawbitch.forward(50)
+drawbitch.left(90)
+drawbitch.forward(450)
+
+# Faire la première colonne
+
+drawbitch.right(90)
+drawbitch.forward(50)
+drawbitch.right(90)
+drawbitch.forward(450)
+
+# Deuxième colonne
+
+drawbitch.left(90)
+drawbitch.forward(50)
+drawbitch.left(90)
+drawbitch.forward(450)
+
+# Troisième colonne
+
+drawbitch.right(90)
+drawbitch.forward(50)
+drawbitch.right(90)
+drawbitch.forward(450)
+
+# Quatrième colonne
+
+drawbitch.left(90)
+drawbitch.forward(50)
+drawbitch.left(90)
+drawbitch.forward(450)
+
+# Cinquième colonne
+
+drawbitch.right(90)
+drawbitch.forward(50)
+drawbitch.right(90)
+drawbitch.forward(450)
+
+# Sixième colonne
+
+drawbitch.left(90)
+drawbitch.forward(50)
+drawbitch.left(90)
+drawbitch.forward(450)
+
+# Septième colonne
+
+drawbitch.right(90)
+drawbitch.forward(50)
+drawbitch.right(90)
+drawbitch.forward(450)
+
+# Huitième colonne
+
+drawbitch.left(90)
+drawbitch.forward(50)
+drawbitch.left(90)
+drawbitch.forward(450)
