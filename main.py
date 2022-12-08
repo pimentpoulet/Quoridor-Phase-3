@@ -26,13 +26,13 @@ if __name__ == "__main__":
         pass
     # Mode par défaut : manuel, sans affichage
         # Implémenter la boucle pour jouer contre le bot du serveur
-#        id_partie, état = débuter_partie(args.idul, SECRET)
- #       while True:
-  #          y = Quoridor(état['joueurs'], état['murs'])
-   #         # Afficher la partie
-    #        print(y.formater_légende())
-     #       print(y.formater_damier())
-      #      # Demander au joueur de choisir son prochain coup
-       #     type_coup, position = y.récupérer_le_coup(1)
-        #    # Envoyer le coup au serveur
-         #   id_partie, état = jouer_coup(id_partie, type_coup, position, args.idul, SECRET)
+        id_partie, état = débuter_partie(args.idul, SECRET)
+        while True:
+            y = Quoridor(état['joueurs'], état['murs'])
+            # Afficher la partie
+            print(y.formater_légende())
+            print(y.formater_damier())
+            # Demander au joueur de choisir son prochain coup
+            type_coup, position = y.récupérer_le_coup(1)
+            # Envoyer le coup au serveur
+            id_partie, état = jouer_coup(id_partie, type_coup, position, args.idul, SECRET)
