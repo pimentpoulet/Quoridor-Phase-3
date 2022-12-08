@@ -7,6 +7,7 @@ from copy import deepcopy
 from quoridor_error import QuoridorError
 from graphe import construire_graphe
 import networkx as nx
+import turtle
 
 class Quoridor:
     """Classe pour encapsuler le jeu Quoridor.
@@ -488,43 +489,3 @@ class Quoridor:
         #self.déplacer_jeton(joueur, list(pos_joueur))
 
         return ('D', list(pos_joueur))
-
-
-#x = Quoridor(['joueur1', 'joueur2'])
-
-# *************** SECTION DE TESTS *****************
-#v1 = [{'nom':'luc', 'pos':[3,3], 'murs':5}, {'nom':'jax', 'pos':[1,1], 'murs':5}]
-#v2 = { "horizontaux": [[4, 4], [2, 6], [3, 8], [5, 8], [7, 8]],
-#                "verticaux": [[6, 2], [4, 4], [2, 5], [7, 5], [6, 7]] }
-#v3 = [{'nom':'luc', 'pos':(3,3), 'murs':5}, {'nom':'jax', 'pos':(1,1), 'murs':5}]
-#v4 = { "horizontaux": [(4, 4), (2, 6), (3, 8), (5, 8), (7, 8)],
-#        "verticaux": [(6, 2), (4, 4), (2, 5), (7, 5), (6, 7)] }
-
-#        état = {
-#        "joueurs": [
-#            {"nom": "Alfred", "murs": 7, "pos": [5, 5]},
-#            {"nom": "Robin", "murs": 3, "pos": [8, 6]},
-#        ],
-#        "murs": {
-#            "horizontaux": [[4, 4], [2, 6], [3, 8], [5, 8], [7, 8]],
-#            "verticaux": [[6, 2], [4, 4], [2, 6], [7, 5], [7, 7]],
-#        },
-#   }
-
-#taken = []
-#for j in v2['horizontaux']:
-#    taken.append(j)
-#    taken.append([j[0], j[1]+1])
-#taken
-
-#test = Quoridor(joueurs = v1, murs = v2)
-#g_test1 = construire_graphe([[2,2], [3,3]], v2['horizontaux'], v2['verticaux'])
-#g_test2 = construire_graphe([[2,2], [3,3]], v4['horizontaux'], v4['verticaux'])
-#g_test1 == g_test2
-
-#joueurs = [{'nom':'luc', 'pos':(3,3), 'murs':5}, {'nom':'jax', 'pos':(1,1), 'murs':5}]
-        #murs = { "horizontaux": [(4, 4), (2, 6), (3, 8), (5, 8), (7, 8)],
-        #"verticaux": [(6, 2), (4, 4), (2, 5), (7, 5), (6, 7)] }
-        #graphe = construire_graphe([joueurs[0]['pos'], joueurs[1]['pos']],
-        #murs['horizontaux'], murs['verticaux'])
-        #cp = joueurs[0]['pos']
