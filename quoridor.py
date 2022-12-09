@@ -7,7 +7,6 @@ from copy import deepcopy
 from quoridor_error import QuoridorError
 from graphe import construire_graphe
 import networkx as nx
-import turtle
 
 class Quoridor:
     """Classe pour encapsuler le jeu Quoridor.
@@ -17,7 +16,6 @@ class Quoridor:
     Attributes:
         état (dict): état du jeu tenu à jour.
     """
-    # NE PAS MODIFIER !!
     def __init__(self, joueurs, murs=None):
         """Constructeur de la classe Quoridor.
 
@@ -37,10 +35,8 @@ class Quoridor:
                 associée à la liste des positions [x, y] des murs verticaux.
         """
         self.état = deepcopy(self.vérification(joueurs, murs))
-        #print(self.état['joueurs'][0]['pos'])
 
 
-    # finie
     def vérification(self, joueurs, murs=None):
         """Vérification d'initialisation d'une instance de la classe Quoridor.
 
@@ -97,7 +93,8 @@ class Quoridor:
             if isinstance(element, dict):
                 if len(murs['verticaux']) > 0 and len(murs['horizontaux']) > 0:
                     if element['pos'] in murs['verticaux'] or element['pos'] in murs['horizontaux']:
-                        raise QuoridorError('La position d\'un joueur est invalide.')
+                        #raise QuoridorError('La position d\'un joueur est invalide.')
+                        pass
                     if element['murs'] < 0 or element['murs'] > 10:
                         raise QuoridorError(
                             "Le nombre de murs qu'un joueur peut placer est plus grand que 10 ou négatif."
@@ -112,10 +109,10 @@ class Quoridor:
         for i in murs['horizontaux']:
             if i[0] >= 9:
                 raise QuoridorError('La position d\'un mur est invalide.')
-            if i[1] >= 9:
+            if i[1] > 9:
                 raise QuoridorError('La position d\'un mur est invalide.')
         for i in murs['verticaux']:
-            if i[0] >= 9:
+            if i[0] > 9:
                 raise QuoridorError('La position d\'un mur est invalide.')
             if i[1] >= 9:
                 raise QuoridorError('La position d\'un mur est invalide.')
@@ -125,15 +122,13 @@ class Quoridor:
 
         return gamestate
 
-    # SELF AJOUTÉS, FONCTION TERMTNÉE !!
+
     def formater_légende(self):
         """Formater la représentation graphique de la légende.
 
         Returns:
             str: Chaîne de caractères représentant la légende.
         """
-        #print(1)
-
         if len(self.état['joueurs'][0]['nom']) >= len(self.état['joueurs'][1]['nom']):
             c_1 = 1
             c_2 = len(self.état['joueurs'][0]['nom']) - len(self.état['joueurs'][1]['nom']) + 1
@@ -141,17 +136,13 @@ class Quoridor:
             c_1 = len(self.état['joueurs'][1]['nom']) - len(self.état['joueurs'][0]['nom']) + 1
             c_2 = 1
 
-        #print(2)
-
         légende_1 = f"Légende:\n   1={self.état['joueurs'][0]['nom']},{c_1*' '}murs={self.état['joueurs'][0]['murs']*'|'}\n"
 
         légende_2 = f"   2={self.état['joueurs'][1]['nom']},{c_2*' '}murs={self.état['joueurs'][1]['murs']*'|'}\n"
 
-        #print(3)
-
         return légende_1 + légende_2
 
-    # SELF AJOUTÉS, FONCTION TERMTNÉE !!
+
     def formater_damier(self):
         """Formater la représentation graphique du damier.
 
@@ -218,7 +209,7 @@ class Quoridor:
 
         return damier
 
-    # FONCTION TERMINÉE JE PENSE !!
+
     def __str__(self):
         """Représentation en art ascii de l'état actuel de la partie.
 
@@ -230,7 +221,7 @@ class Quoridor:
         #print('tabarnak')
         return f"{self.formater_légende()}{self.formater_damier()}"
 
-    # NE PAS MODIFIER !!
+
     def état_courant(self):
         """Produire l'état actuel du jeu.
 
@@ -242,7 +233,7 @@ class Quoridor:
         """
         return deepcopy(self.état)
 
-    # SI LE CODE MARCHE, FONCTION TERMINÉE !!
+
     def est_terminée(self):
         """Déterminer si la partie est terminée.
 
@@ -262,7 +253,7 @@ class Quoridor:
         #  SI PAS DE GAGNANT :
         return False
 
-    # Terminée
+
     def récupérer_le_coup(self, joueur):
         """Récupérer le coup
 
@@ -349,6 +340,7 @@ class Quoridor:
         else:
             raise QuoridorError("La position est invalide pour l'état actuel du jeu.")
 
+
     def placer_un_mur(self, joueur, position, orientation):
         """Placer un mur.
 
@@ -417,75 +409,94 @@ class Quoridor:
         self.état['joueurs'][joueur-1]['murs'] -= 1
 
 
-    def jouer_le_coup(self, joueur):
+    def jouer_le_coup(self):
         """Jouer un coup automatique pour un joueur.
 
         Pour le joueur spécifié, jouer automatiquement son meilleur coup pour l'état actuel
         de la partie. Ce coup est soit le déplacement de son jeton, soit le placement d'un
         mur horizontal ou vertical.
 
-        Args:
-            joueur (int): Un entier spécifiant le numéro du joueur (1 ou 2).
 
         Raises:
-            QuoridorError: Le numéro du joueur est autre que 1 ou 2.
             QuoridorError: La partie est déjà terminée.
+            QuoridorError: Le robot est enfermé
 
         Returns:
             Tuple[str, List[int, int]]: Un tuple composé du type et de la position du coup joué.
         """
+        meilleur_type = ''
+        meilleure_pos = []
 
-        # Test du numero du joueur
-        if joueur not in (1, 2):
-            raise QuoridorError('Le numéro du joueur est autre que 1 ou 2.')
+        # Construit le graphe du jeu
+        graphe = construire_graphe([self.état['joueurs'][0]['pos'],
+        self.état['joueurs'][1]['pos']], self.état['murs']['horizontaux'],
+        self.état['murs']['verticaux'])
+
+        # Crée le shortest path pour chaque joueur
+        sp_1 = list(nx.shortest_path(graphe, tuple(self.état['joueurs'][0]['pos']), "B1"))
+        sp_2 = list(nx.shortest_path(graphe, tuple(self.état['joueurs'][1]['pos']), "B2"))
+        print('shortest path j1 :', sp_1)
+        print('shortest path j2 :', sp_2)
+
+        # Contruit une liste des positions occupées par les murs
+        murs_h = []
+        murs_v = []
+        for i in self.état['murs']['horizontaux']:
+            murs_h.append(i)
+            murs_h.append([i[0]+1, i[1]])
+        for j in self.état['murs']['verticaux']:
+            murs_v.append(j)
+            murs_v.append([j[0], j[1]+1])
+        taken = murs_h + murs_v
+        nb_murs = self.état['joueurs'][1]['murs']
+        
+        #taken = []
+        #for i in self.état['murs']['horizontaux']:
+        #    taken.append(i)
+        #    taken.append([i[0]+1, i[1]])
+        #for j in self.état['murs']['verticaux']:
+        #    taken.append(j)
+        #    taken.append([j[0], j[1]+1])
+
+        # Test si le robot est enfermé
+        if len(sp_2) == 1:
+            raise QuoridorError('Le robot est enfermé')
 
         # Test pour une partie terminée
         if self.est_terminée is False:
             raise QuoridorError('La partie est déjà terminée.')
 
-        # Si je suis le joueur 1 et que la position du joueur 2 est [x, 2] :
-        # je place un mur horizontal en [x, 1]
 
-        # Si je suis le joueur 2 et que la position du joueur 1 est [x, 8] :
-        # je place un mur horizontal en [x, 9]
+        # Si le shortest path du joueur est plus petit que celui du robot, déplacement selon le shortest path
 
-        #pos_joueur_1 = [self.état['joueurs'][0]['pos'], 'B1']
-        #pos_joueur_2 = [self.état['joueurs'][1]['pos'], 'B2']
+        # Sinon, si shortest path du robot = déplacement vertical, on met un mur horziontal
+        if sp_2[1][1] != sp_2[0][1] and nb_murs > 0 and len(sp_2) < len(sp_1) and len(sp_2) <= 7:
+            for i in sp_2[1:]:
+                print(i)
+                print(murs_h)
+                print(taken)
+                if [i[0], i[1]+1] not in murs_h and [i[0]+1, i[1]+1] not in taken and i[0] < 9 and i[0] >= 1 and i[1] <= 8:
+                    if i[0] == 9:
+                        meilleur_type = 'MH'
+                        meilleure_pos = [i[0]-1, i[1]+1]
+                        break
+                    else: 
+                        meilleur_type = 'MH'
+                        meilleure_pos = [i[0], i[1]+1]
+                        break
 
-        #print(self.état['murs']['horizontaux'])
-        #print(self.état['murs']['verticaux'])
-        graphe = construire_graphe([self.état['joueurs'][0]['pos'],
-         self.état['joueurs'][1]['pos']], self.état['murs']['horizontaux'],
-          self.état['murs']['verticaux'])
+        # Sinon, si shortest path du robot = déplacement horizontal, on met un mur vertical
+        elif sp_2[1][0] != sp_2[0][0] and nb_murs > 0 and len(sp_2) < len(sp_1) and len(sp_2) <= 5:
+            for i in sp_2[1:]:
+                print(i)
+                print(murs_v)
+                print(taken)
+                if [i[0]+1, i[1]] not in murs_v and [i[0]+1, i[1]+1] not in taken and i[1] < 9 and i[1] >= 1 and i[0] <= 8:
+                    meilleur_type = 'MV'
+                    meilleure_pos = [i[0]+1, i[1]]
+                    break
+        else:
+            meilleur_type = 'D'
+            meilleure_pos = list(sp_1[1])
 
-        #self.graphe = construire_graphe([self.état['joueurs'][0]['pos'],
-        # self.état['joueurs'][1]['pos']], self.état['murs']['horizontaux'],
-        # self.état['murs']['verticaux'])
-
-        #if joueur == 1 and pos_joueur_2[1][1] == 2:
-            # J'appelle la méthode placer_un_mur pour placer un mur
-         #   self.placer_un_mur(joueur, [pos_joueur_2[1][1], pos_joueur_2[1][2]-1], 'horizontal')
-
-          #  return ('MH', [pos_joueur_2[1][1], pos_joueur_2[1][2]-1])
-
-        #if joueur == 2 and pos_joueur_1[1] == 8:
-            #print(pos_joueur_1[1][1])
-            #print(pos_joueur_1[1][2]+1)
-            # J'appelle la méthode placer_un_mur pour placer un mur
-         #   self.placer_un_mur(joueur, [pos_joueur_1[0], pos_joueur_1[1]+1], 'horizontal')
-
-          #  return ('MH', [pos_joueur_1[0], pos_joueur_1[1]+1])
-
-        # Le prochain coup du joueur est la position la plus rapide pour atteindre l'objectif.
-        # Avec le module networkx, je peux avoir une liste de tuple détaillant toutes
-        # les positions pour arriver à B1 ou B2, selon le joueur, à partir de sa position
-
-        # Le prochain coup du joueur est donc le tuple qui suit la position actuelle dans
-        # nx.shortest_path
-
-        pos_joueur = list(nx.shortest_path(graphe,
-         tuple(self.état['joueurs'][joueur - 1]['pos']), f"B{joueur}"))[1]
-        #print(pos_joueur)
-        #self.déplacer_jeton(joueur, list(pos_joueur))
-
-        return ('D', list(pos_joueur))
+        return (meilleur_type, meilleure_pos)
