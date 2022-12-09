@@ -80,4 +80,6 @@ def draw_damier(d=9):
 
         y += 50
 
+
+
 draw_damier()
