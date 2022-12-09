@@ -1,195 +1,85 @@
 import turtle
 
-fen = turtle.Screen()
-fen.title('Jeu Quoridor')
-fen.setup(width=800, height=800)
-drawbitch = turtle.Turtle()
+# Créer un objet screen
+sc = turtle.Screen()
+sc.title('Jeu Quoridor')
 
 
-# Faire une première ligne horizontale de 600 pixels :
+# Créer nos objets turtle
+dbitch1 = turtle.Turtle()
+dbitch2 = turtle.Turtle()
+dbitch3 = turtle.Turtle()
+dbitch4 = turtle.Turtle()
 
-drawbitch.forward(250)
-drawbitch.left(180)
-drawbitch.forward(500)
+# Créer l'écran
+sc.setup(1000, 1000)
 
+# Paramétriser la vitesse de dessin
+dbitch1.speed(15)
+dbitch2.speed(15)
+dbitch3.speed(5)
+dbitch4.speed(5)
 
-# Faire une ligne verticale de 600 pixels :
+def draw_damier(d=9):
 
-drawbitch.right(90)
-drawbitch.forward(250)
-drawbitch.right(180)
-drawbitch.forward(500)
+# dbitch1 trace les rectangles horizontaux
 
+    for i in range(d):
+        for j in range(2):
 
-# Faire les lignes horizontales du damier :
+            dbitch1.forward(450)
+            dbitch1.left(90)
 
-# Ligne du bas
+            dbitch1.forward(50)
+            dbitch1.left(90)
 
-drawbitch.left(90)
-drawbitch.forward(500)
+# dbitch2 trace les rectangles verticaux
 
-drawbitch.left(90)
-drawbitch.forward(50)
+            dbitch2.forward(50)
+            dbitch2.left(90)
 
-drawbitch.left(90)
+            dbitch2.forward(450)
+            dbitch2.left(90)
 
-# Deuxième ligne
+# dbitch 1 ajuste sa position horizontale
 
-drawbitch.forward(500)
+        dbitch1.left(90)
+        dbitch1.forward(50)
+        dbitch1.right(90)
 
-drawbitch.right(90)
-drawbitch.forward(50)
+# dbitch2 ajuste sa position verticale
 
-drawbitch.right(90)
+        dbitch2.forward(50)
 
-# Troisième ligne
+# dbitch 3 trace les chiffres horizontaux
 
-drawbitch.forward(500)
+    dbitch3.left(180)
+    dbitch3.forward(50)
 
-drawbitch.left(90)
-drawbitch.forward(50)
+    x = 23
+    for i in range(9):
+        dbitch3.penup()
+        dbitch3.goto(x, -25)
+        dbitch3.pendown()
+        dbitch3.write(i)
 
-drawbitch.left(90)
+        x += 50
 
-# Quatrième ligne
+# dbitch4 trace les chiffres verticaux
 
-drawbitch.forward(500)
+    dbitch4.right(90)
+    dbitch4.forward(50)
 
-drawbitch.right(90)
-drawbitch.forward(50)
+    y = 23
 
-drawbitch.right(90)
+    for i in range(9):
+        dbitch4.penup()
+        dbitch4.goto(-25, y)
+        dbitch4.pendown()
+        dbitch4.write(i)
 
-# Cinquième ligne
+        y += 50
 
-drawbitch.forward(500)
 
-drawbitch.left(90)
-drawbitch.forward(50)
 
-drawbitch.left(90)
-
-# Sixième ligne
-
-drawbitch.forward(500)
-
-drawbitch.right(90)
-drawbitch.forward(50)
-
-drawbitch.right(90)
-
-# Septième ligne
-
-drawbitch.forward(500)
-
-drawbitch.left(90)
-drawbitch.forward(50)
-
-drawbitch.left(90)
-
-# Huitième ligne
-
-drawbitch.forward(500)
-
-drawbitch.right(90)
-drawbitch.forward(50)
-
-drawbitch.right(90)
-
-# Neuvième ligne
-
-drawbitch.forward(500)
-
-drawbitch.left(90)
-drawbitch.forward(50)
-
-drawbitch.left(90)
-
-# Dixième ligne
-
-drawbitch.forward(500)
-
-drawbitch.right(90)
-drawbitch.forward(50)
-
-drawbitch.right(90)
-
-# Onzième ligne
-
-drawbitch.forward(500)
-drawbitch.right(90)
-drawbitch.forward(50)
-
-
-# Faire les lignes verticales du damier :
-
-# Faire la première colonne
-
-drawbitch.forward(400)
-drawbitch.right(90)
-drawbitch.forward(50)
-drawbitch.right(90)
-drawbitch.forward(450)
-
-# Deuxième colonne
-
-drawbitch.left(90)
-drawbitch.forward(50)
-drawbitch.left(90)
-drawbitch.forward(450)
-
-# Faire la première colonne
-
-drawbitch.right(90)
-drawbitch.forward(50)
-drawbitch.right(90)
-drawbitch.forward(450)
-
-# Deuxième colonne
-
-drawbitch.left(90)
-drawbitch.forward(50)
-drawbitch.left(90)
-drawbitch.forward(450)
-
-# Troisième colonne
-
-drawbitch.right(90)
-drawbitch.forward(50)
-drawbitch.right(90)
-drawbitch.forward(450)
-
-# Quatrième colonne
-
-drawbitch.left(90)
-drawbitch.forward(50)
-drawbitch.left(90)
-drawbitch.forward(450)
-
-# Cinquième colonne
-
-drawbitch.right(90)
-drawbitch.forward(50)
-drawbitch.right(90)
-drawbitch.forward(450)
-
-# Sixième colonne
-
-drawbitch.left(90)
-drawbitch.forward(50)
-drawbitch.left(90)
-drawbitch.forward(450)
-
-# Septième colonne
-
-drawbitch.right(90)
-drawbitch.forward(50)
-drawbitch.right(90)
-drawbitch.forward(450)
-
-# Huitième colonne
-
-drawbitch.left(90)
-drawbitch.forward(50)
-drawbitch.left(90)
-drawbitch.forward(450)
+draw_damier()

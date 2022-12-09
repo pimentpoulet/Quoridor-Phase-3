@@ -11,5 +11,6 @@
 !/README.md
 !/tests.py
 !/utilitaire.py
+!/Turtle_Joueurs_Murs
 
 # Pas besoin d'inclure les bundles créés, ils devraient être ignorés automatiquement

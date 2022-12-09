@@ -48,3 +48,4 @@ if __name__ == "__main__":
             type_coup, position = y.récupérer_le_coup(1)
             # Envoyer le coup au serveur
             id_partie, état = jouer_coup(id_partie, type_coup, position, args.idul, SECRET)
+
