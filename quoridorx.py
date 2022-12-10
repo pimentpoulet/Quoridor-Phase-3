@@ -48,18 +48,8 @@ class QuoridorX(Quoridor):
 
         # Créer l'écran
         sc.setup(1000, 1000)
+        sc.tracer(n=2)
 
-        # Paramétriser la vitesse de dessin
-        dbitch1.speed(100)
-        dbitch2.speed(100)
-        dbitch3.speed(50)
-        dbitch4.speed(50)
-        dbitch5.speed(50)
-        dbitch6.speed(50)
-        dbitch7.speed(50)
-        dbitch8.speed(50)
-
-        
         # dbitch1 trace les rectangles horizontaux
 
         for i in range(9):
@@ -89,6 +79,7 @@ class QuoridorX(Quoridor):
 
             dbitch2.forward(50)
 
+        dbitch1.hideturtle()
         dbitch2.hideturtle()
 
         # dbitch3 trace les chiffres horizontaux
@@ -167,9 +158,11 @@ class QuoridorX(Quoridor):
         
         dbitch8.hideturtle()
 
+        sc.textinput("Quel type de coup voulez-vous jouer?", "(D, MH, MV)")
+
         turtle.Screen().exitonclick()
 
 
-#x = QuoridorX([{"nom": "Alfred", "murs": 7, "pos": [5, 5]}, {"nom": "Robin", "murs": 3, "pos": [8, 6]}], {"horizontaux": [[4, 4], [2, 6], [3, 8], [5, 8], [7, 8]], "verticaux": [[6, 2], [4, 4], [2, 6], [7, 5], [7, 7]]})
+x = QuoridorX([{"nom": "Alfred", "murs": 7, "pos": [5, 5]}, {"nom": "Robin", "murs": 3, "pos": [8, 6]}], {"horizontaux": [[4, 4], [2, 6], [3, 8], [5, 8], [7, 8]], "verticaux": [[6, 2], [4, 4], [2, 6], [7, 5], [7, 7]]})
 
-#x.afficher()
+x.afficher()
