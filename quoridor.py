@@ -424,39 +424,33 @@ class Quoridor:
         Returns:
             Tuple[str, List[int, int]]: Un tuple composé du type et de la position du coup joué.
         """
-        meilleur_type = ''
-        meilleure_pos = []
+        murs_horizontaux = self.état['murs']['horizontaux']
+        murs_verticaux = self.état['murs']['verticaux']
+        pj1 = self.état['joueurs'][0]['pos']
+        pj2 = self.état['joueurs'][1]['pos']
 
         # Construit le graphe du jeu
-        graphe = construire_graphe([self.état['joueurs'][0]['pos'],
-        self.état['joueurs'][1]['pos']], self.état['murs']['horizontaux'],
-        self.état['murs']['verticaux'])
+        graphe = construire_graphe([pj1, pj2], murs_horizontaux, murs_verticaux)
 
         # Crée le shortest path pour chaque joueur
-        sp_1 = list(nx.shortest_path(graphe, tuple(self.état['joueurs'][0]['pos']), "B1"))
-        sp_2 = list(nx.shortest_path(graphe, tuple(self.état['joueurs'][1]['pos']), "B2"))
-        print('shortest path j1 :', sp_1)
-        print('shortest path j2 :', sp_2)
+        sp_1 = list(nx.shortest_path(graphe, tuple(pj1), "B1"))
+        sp_2 = list(nx.shortest_path(graphe, tuple(pj2), "B2"))
+        #print('shortest path j1 :', sp_1)
+        #print('shortest path j2 :', sp_2)
+        meilleur_type = 'D'
+        meilleure_pos = list(sp_1[1])
 
         # Contruit une liste des positions occupées par les murs
-        murs_h = []
-        murs_v = []
-        for i in self.état['murs']['horizontaux']:
-            murs_h.append(i)
-            murs_h.append([i[0]+1, i[1]])
-        for j in self.état['murs']['verticaux']:
-            murs_v.append(j)
-            murs_v.append([j[0], j[1]+1])
-        taken = murs_h + murs_v
-        nb_murs = self.état['joueurs'][1]['murs']
-        
-        #taken = []
-        #for i in self.état['murs']['horizontaux']:
-        #    taken.append(i)
-        #    taken.append([i[0]+1, i[1]])
-        #for j in self.état['murs']['verticaux']:
-        #    taken.append(j)
-        #    taken.append([j[0], j[1]+1])
+        pmurs_h = []
+        pmurs_v = []
+        for i in murs_horizontaux:
+            pmurs_h.append(i)
+            pmurs_h.append([i[0]+1, i[1]])
+        for j in murs_verticaux:
+            pmurs_v.append(j)
+            pmurs_v.append([j[0], j[1]+1])
+        taken = pmurs_h + pmurs_v
+        nb_murs = self.état['joueurs'][0]['murs']
 
         # Test si le robot est enfermé
         if len(sp_2) == 1:
@@ -466,37 +460,139 @@ class Quoridor:
         if self.est_terminée is False:
             raise QuoridorError('La partie est déjà terminée.')
 
+        #si la longueur de son shortest path est <= 10 et qu'il reste des murs et que son sp est + petit que moi, on met un mur
 
-        # Si le shortest path du joueur est plus petit que celui du robot, déplacement selon le shortest path
-
-        # Sinon, si shortest path du robot = déplacement vertical, on met un mur horziontal
-        if sp_2[1][1] != sp_2[0][1] and nb_murs > 0 and len(sp_2) < len(sp_1) and len(sp_2) <= 7:
-            for i in sp_2[1:]:
-                print(i)
-                print(murs_h)
-                print(taken)
-                if [i[0], i[1]+1] not in murs_h and [i[0]+1, i[1]+1] not in taken and i[0] < 9 and i[0] >= 1 and i[1] <= 8:
-                    if i[0] == 9:
-                        meilleur_type = 'MH'
-                        meilleure_pos = [i[0]-1, i[1]+1]
-                        break
-                    else: 
-                        meilleur_type = 'MH'
-                        meilleure_pos = [i[0], i[1]+1]
-                        break
-
-        # Sinon, si shortest path du robot = déplacement horizontal, on met un mur vertical
-        elif sp_2[1][0] != sp_2[0][0] and nb_murs > 0 and len(sp_2) < len(sp_1) and len(sp_2) <= 5:
-            for i in sp_2[1:]:
-                print(i)
-                print(murs_v)
-                print(taken)
-                if [i[0]+1, i[1]] not in murs_v and [i[0]+1, i[1]+1] not in taken and i[1] < 9 and i[1] >= 1 and i[0] <= 8:
-                    meilleur_type = 'MV'
-                    meilleure_pos = [i[0]+1, i[1]]
-                    break
+            # si son prochain move du sp1 est vertical:
+                # si [x+1, y] du sp1 est libre, on place un mur horizontal au sp1
+                # sinon, si [x-1, y] du sp1 est libre, on place un mur horizontal en x-1 du sp1
+                # sinon, on déplace sur sp
+            # sinon:
+                # si [x, y-1] du sp1 est libre, on place un mur vertical au en y-1 du sp1
+                # sinon, si [x, y+1] du sp1 est libre, on place un mur vertical au sp1
+                # sinon, on déplace sur sp
+        # sinon, je deplace sur sp
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        if len(sp_2) <= len(sp_1) and nb_murs > 0:
+            #j'y calisse un mur dans face
+            # Si déplacement vertical
+            if sp_2[1][1] != sp_2[0][1]:
+                for i in sp_2[1:-1]:
+                    if [i[0], i[1]+1] not in pmurs_h and [i[0]+1, i[1]+1] not in taken and i[0] < 9 and i[0] >= 1 and i[1] <= 8 and i not in sp_1:
+                        if i[0] == 9 or [i[0]+1, i[1]] in taken:
+                            meilleur_type = 'MH'
+                            meilleure_pos = [i[0]-1, i[1]+1]
+                            break
+                        else: 
+                            meilleur_type = 'MH'
+                            meilleure_pos = [i[0], i[1]+1]
+                            break
+                    else:
+                        continue
+            else:
+                # Déplacement a a droite
+                if sp_2[1][0] > sp_2[0][0]:
+                    for i in sp_2[1:-1]:
+                        print(i)
+                        if [i[0]+1, i[1]] not in pmurs_v and [i[0]+1, i[1]+1] not in taken and i[1] < 9 and i[1] >= 1 and i[0] <= 8 and i not in sp_1:
+                            meilleur_type = 'MV'
+                            meilleure_pos = [i[0]+1, i[1]]
+                            break
+                        else:
+                            continue
+                else:
+                    # Déplacement a gauche
+                    for i in sp_2[1:-1]:
+                        print(i)
+                        if [i[0]+1, i[1]] not in pmurs_v and [i[0]+1, i[1]+1] not in taken and i[1] < 9 and i[1] >= 1 and i[0] <= 8 and i not in sp_1:
+                            meilleur_type = 'MV'
+                            meilleure_pos = [i[0]+1, i[1]]
+                            break
+                        else:
+                            continue
         else:
             meilleur_type = 'D'
             meilleure_pos = list(sp_1[1])
 
         return (meilleur_type, meilleure_pos)
+
+
+        # si shortest path du robot = déplacement vertical, on met un mur horziontal
+        #if sp_2[1][1] != sp_2[0][1] and nb_murs > 0 and len(sp_2) < len(sp_1) :#and len(sp_2) <= 5:
+            #for i in sp_2[1:-1]:
+                #print(i)
+                #if [i[0], i[1]+1] not in pmurs_h and [i[0]+1, i[1]+1] not in taken and i[0] < 9 and i[0] >= 1 and i[1] <= 8 and i not in sp_1:
+                    #if i[0] == 9 or [i[0]+1, i[1]] in taken:
+        #                #meilleur_type = 'MH'
+        #                meilleure_pos = [i[0]-1, i[1]+1]
+        #                break
+        #            else: 
+        #                meilleur_type = 'MH'
+        #                meilleure_pos = [i[0], i[1]+1]
+        #                break
+        # Sinon, si shortest path du robot = déplacement horizontal, on met un mur vertical :
+        # Déplacement vers la droite
+        #elif sp_2[1][0] > sp_2[0][0] and nb_murs > 0 and len(sp_2) < len(sp_1) :#and len(sp_2) <= 10:
+        #    for i in sp_2[1:-1]:
+        #        print(i)
+        #        if [i[0]+1, i[1]] not in pmurs_v and [i[0]+1, i[1]+1] not in taken and i[1] < 9 and i[1] >= 1 and i[0] <= 8 and i not in sp_1:
+        #            meilleur_type = 'MV'
+        #            meilleure_pos = [i[0]+1, i[1]]
+        #            break
+        ## Déplacement vers la gauche
+        #elif sp_2[1][0] < sp_2[0][0] and nb_murs > 0 and len(sp_2) < len(sp_1) :#and len(sp_2) <= 10:
+        #    for i in sp_2[1:-1]:
+        #        print(i)
+        #        if [i[0]+1, i[1]] not in pmurs_v and [i[0]+1, i[1]+1] not in taken and i[1] < 9 and i[1] >= 1 and i[0] <= 8 and i not in sp_1:
+        #            meilleur_type = 'MV'
+        #            meilleure_pos = [i[0]+1, i[1]]
+        #            break 
+        #else:
+        #    meilleur_type = 'D'
+        #    meilleure_pos = list(sp_1[1])
+        # 
+        # return (meilleur_type, meilleure_pos)
+
+        # VÉRIFICATION DU PLACEMENT DE MURS FONCTIONNE PAS
+        #if meilleur_type == 'MH':
+        #   new_murs_h = list(murs_horizontaux)
+        #    new_murs_h.append(meilleure_pos)
+        #    #print('if vérification shortest path')
+        #    print('anciens murs h:', murs_horizontaux)
+        #    print('nouveau murs h:', new_murs_h)
+        #    #print('en ordre :', sorted(murs_horizontaux))
+        #    #print('nouveau murs :', new_murs_h, type(new_murs_h))
+        #    new_graph = construire_graphe([pj1, pj2], new_murs_h, murs_verticaux)
+        #    new_sp = list(nx.shortest_path(new_graph, tuple(pj2), "B2"))
+        #    print('Nouveau shortest path', new_sp)
+        #    if new_sp[0] != 'B2':
+        #        return (meilleur_type, meilleure_pos)
+        #    else:
+        #        return ('D', list(sp_1[1]))
+        #elif meilleur_type == 'MV':
+        #    new_murs_v = list(murs_verticaux)
+        #    new_murs_v.append(meilleure_pos)
+        #    print('anciens murs v:', murs_verticaux)
+        #    print('nouveau murs v:', new_murs_v)
+        #    #print('en ordre :', sorted(murs_verticaux))
+        #    #print('nouveau murs :', new_murs_v, type(new_murs_v))
+        #    new_graph = construire_graphe([pj1, pj2], murs_horizontaux, new_murs_v)
+        #    new_sp = list(nx.shortest_path(new_graph, tuple(pj2), "B2"))
+        #    print('Nouveau shortest path', new_sp)
+        #    if new_sp[0] != 'B2':
+        #        return (meilleur_type, meilleure_pos)
+        #    else:
+        #        return ('D', list(sp_1[1]))
