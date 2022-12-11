@@ -18,7 +18,7 @@ if __name__ == "__main__":
     # Mode automatique sans affichage
         id_partie, état = débuter_partie(args.idul, SECRET)
         while True:
-            print(état['joueurs'], état['murs'])
+            #print(état['joueurs'], état['murs'])
             game = Quoridor(état['joueurs'], état['murs'])
             # Afficher la partie
             print(game)
