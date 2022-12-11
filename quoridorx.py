@@ -214,14 +214,11 @@ class QuoridorX(Quoridor):
         dbitch7.pendown()
         dbitch7.write(f"Légende:\n\n1={self.état['joueurs'][0]['nom']},{c_1*' '}murs={self.état['joueurs'][0]['murs']*'|'}{(k_1-1)*' '} (royal blue)\n\n2={self.état['joueurs'][1]['nom']},{c_2*' '}murs={self.état['joueurs'][1]['murs']*'|'}{(k_2-1)*' '} (orange red)\n", font=("Monaco", 18, "normal"))
 
-        
+        move = sc.textinput("Quel type de coup voulez-vous jouer?", "(D, MH, MV)")
 
-        
+        if move in ['D', 'MH' 'MV']:
 
-
-
-
-        #sc.textinput("Quel type de coup voulez-vous jouer?", "(D, MH, MV)")
+            position = sc.textinput("À quelle position voulez-vous jouer?", "(x, y)")
 
         turtle.Screen().exitonclick()
 
