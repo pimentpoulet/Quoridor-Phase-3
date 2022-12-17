@@ -27,23 +27,23 @@ if __name__ == "__main__":
             input('Appuyez sur Enter pour continuer')
             # Le joueur joue son meilleur coup
             try:
-                print('dans le 1er try')
+                #print('dans le 1er try')
                 type_coup, position = game.jouer_le_coup()
                 id_partie, état = jouer_coup(id_partie, type_coup, position, args.idul, SECRET)
             except (PermissionError, RuntimeError):
                 try:
                     print('dans le 2e try')
-                    print('premiere exception')
                     type_coup = 'D'
                     position = list(nx.shortest_path(game.graphe, tuple(game.état['joueurs'][0]['pos']), "B1"))[1]
-                    print(type_coup, position)
+                    #print(type_coup, position)
                     id_partie, état = jouer_coup(id_partie, type_coup, position, args.idul, SECRET)
                 except (StopIteration):
-                    print('2e exception')
-                    print('va chier', game.est_terminée)
+                    #print('2e exception')
+                    game.est_terminée()
                     break
             except (StopIteration):
-                print('va chier', game.est_terminée)
+                #print('3e exception')
+                game.est_terminée()
                 break
                 
                 
