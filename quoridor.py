@@ -35,6 +35,9 @@ class Quoridor:
                 associée à la liste des positions [x, y] des murs verticaux.
         """
         self.état = deepcopy(self.vérification(joueurs, murs))
+        # Construit le graphe du jeu
+        self.graphe = construire_graphe([self.état['joueurs'][0]['pos'], self.état['joueurs'][1]['pos']],
+            self.état['murs']['horizontaux'], self.état['murs']['verticaux'])
 
 
     def vérification(self, joueurs, murs=None):
@@ -419,7 +422,6 @@ class Quoridor:
 
         Raises:
             QuoridorError: La partie est déjà terminée.
-            QuoridorError: Le robot est enfermé
 
         Returns:
             Tuple[str, List[int, int]]: Un tuple composé du type et de la position du coup joué.
@@ -452,103 +454,120 @@ class Quoridor:
         taken = pmurs_h + pmurs_v
         nb_murs = self.état['joueurs'][0]['murs']
 
-        # Test si le robot est enfermé
-        if len(sp_2) == 1:
-            raise QuoridorError('Le robot est enfermé')
-
         # Test pour une partie terminée
         if self.est_terminée is False:
             raise QuoridorError('La partie est déjà terminée.')
 
+        
+        # TROISIEME ITERATION
         #si la longueur de son shortest path est <= 10 et qu'il reste des murs et que son sp est + petit que moi, on met un mur
-        if len(sp_2) <= len(sp_1)+1 and nb_murs > 0 and len(murs_horizontaux) + len(murs_verticaux) < 10 and len(sp_2) <= 8:
-            print('shortest path du robot :', sp_2[1])
-            # si son prochain move du sp1 est vertical:
-            if sp_2[1][1] != sp_2[0][1]:
-                # si [x+1, y+1] du sp1 est libre et n'est pas dans mon sp, on veut placer un mur horizontal en [x, y+1]
-                if [sp_2[1][0]+1, sp_2[1][1]+1] not in taken and [sp_2[1][0], sp_2[1][1]+1] not in taken and [sp_2[1][0], sp_2[1][1]+1] not in sp_1:# and sp_2[1] not in sp_1:
-                    print('étape 3')
-                    # Si la position du mur est légale, on place le mur
-                    if sp_2[1][0] >= 1 and sp_2[1][1] > 1 and sp_2[1][0] <= 8:
-                        print('vérif 1 :', [sp_2[1][0]+1, sp_2[1][1]])
-                        meilleur_type = 'MH'
-                        meilleure_pos = [sp_2[1][0], sp_2[1][1]+1]
-                    # Sinon, on se déplace sur sp
-                    else:
-                        meilleur_type = 'D'
-                        meilleure_pos = sp_1[1]
-                # sinon, si [x-1, y+1] du sp1 est libre et n'est pas dans mon sp, on veut placer un mur horizontal en [x-1, y+1] du sp1
-                elif [sp_2[1][0]-1, sp_2[1][1]+1] not in taken and [sp_2[1][0], sp_2[1][1]+1] not in taken and [sp_2[1][0]-1, sp_2[1][1]+1] not in sp_1:# and sp_2[1] not in sp_1:
-                    # Si la position du mur est légale, on place le mur
-                    if sp_2[1][0] > 1 and sp_2[1][1] > 1:
-                        print('vérif 2 :', [sp_2[1][0]-1, sp_2[1][1]])
-                        meilleur_type = 'MH'
-                        meilleure_pos = [sp_2[1][0]-1, sp_2[1][1]+1]
-                    # sinon, on déplace en sp
-                    else:
-                        meilleur_type = 'D'
-                        meilleure_pos = sp_1[1]
-                # sinon, on déplace sur sp
+        if len(sp_2) <= len(sp_1)+3 and nb_murs > 0 and len(sp_2) <= 9:
+        #    print('shortest path du robot :', sp_2[1])
+        #    # si son prochain move du sp1 est vertical:
+            if sp_2[1][1] != sp_2[0][1] and sp_2[1] not in sp_1[:2]:
+        #        # si [x+1, y+1] du sp1 est libre et n'est pas dans mon sp, on veut placer un mur horizontal en [x, y+1]
+        #        if [sp_2[1][0]+1, sp_2[1][1]+1] not in taken and [sp_2[1][0], sp_2[1][1]+1] not in taken and [sp_2[1][0], sp_2[1][1]+1] not in sp_1:# and sp_2[1] not in sp_1:
+                if sp_2[1][0] == 9:
+                    meilleur_type = 'MH'
+                    #meilleure_pos = sp_2[1]
+                    meilleure_pos = [sp_2[1][0]-1, sp_2[1][1]+1]
                 else:
-                    meilleur_type = 'D'
-                    meilleure_pos = sp_1[1]
-            # sinon, si son prochain move est horizontal a droite:
-            elif sp_2[0][0] < sp_2[1][0]:
-                # si [x, y-1] du sp1 est libre, on veut placer un mur vertical en [x, y-1] du sp1
-                if [sp_2[1][0], sp_2[1][1]-1] not in taken and [sp_2[1][0], sp_2[1][1]] not in taken and [sp_2[1][0], sp_2[1][1]-1] not in sp_1:# and sp_2[1] not in sp_1:
-                    # si la position du mur est légale, on place le mur
-                    if sp_2[1][0] > 1 and sp_2[1][1] > 1:
-                        print('vérif 3 :', [sp_2[1][0], sp_2[1][1]-1])
-                        meilleur_type = 'MV'
-                        meilleure_pos = [sp_2[1][0], sp_2[1][1]-1]
-                    # sinon on déplace en sp
-                    else:
-                        meilleur_type = 'D'
-                        meilleure_pos = sp_1[1]
-                # sinon, si [x, y+1] du sp1 est libre, on veut placer un mur vertical au sp1
-                elif [sp_2[1][0], sp_2[1][1]+1] not in taken and [sp_2[1][0], sp_2[1][1]] not in taken and [sp_2[1][0], sp_2[1][1]] not in sp_1:# and sp_2[1] not in sp_1:
-                    # Si la position du mur est légale, on place le mur
-                    if sp_2[1][0] > 1 and sp_2[1][1] >= 1 and sp_2[1][1] <= 8:
-                        print('vérif 4 :', [sp_2[1][0]-1, sp_2[1][1]])
-                        meilleur_type = 'MV'
-                        meilleure_pos = sp_2[1]
-                    # sinon, on déplace en sp
-                    else:
-                        meilleur_type = 'D'
-                        meilleure_pos = sp_1[1]
-                # sinon, on déplace sur sp
-                else:
-                    meilleur_type = 'D'
-                    meilleure_pos = sp_1[1]
-            # sinon (move horizontal a gauche)
+                    meilleur_type = 'MH'
+                    #meilleure_pos = sp_2[1]
+                    meilleure_pos = [sp_2[1][0], sp_2[1][1]+1]
+        #           print('étape 3')
+        #            # Si la position du mur est légale, on place le mur
+        #            if sp_2[1][0] >= 1 and sp_2[1][1] > 1 and sp_2[1][0] <= 8:
+        #                print('vérif 1 :', [sp_2[1][0]+1, sp_2[1][1]])
+        #                meilleur_type = 'MH'
+        #                meilleure_pos = [sp_2[1][0], sp_2[1][1]+1]
+        #            # Sinon, on se déplace sur sp
+        #            else:
+        #                meilleur_type = 'D'
+        #                meilleure_pos = sp_1[1]
+        #        # sinon, si [x-1, y+1] du sp1 est libre et n'est pas dans mon sp, on veut placer un mur horizontal en [x-1, y+1] du sp1
+        #        elif [sp_2[1][0]-1, sp_2[1][1]+1] not in taken and [sp_2[1][0], sp_2[1][1]+1] not in taken and [sp_2[1][0]-1, sp_2[1][1]+1] not in sp_1:# and sp_2[1] not in sp_1:
+        #            # Si la position du mur est légale, on place le mur
+        #            if sp_2[1][0] > 1 and sp_2[1][1] > 1:
+        #                print('vérif 2 :', [sp_2[1][0]-1, sp_2[1][1]])
+        #                meilleur_type = 'MH'
+        #                meilleure_pos = [sp_2[1][0]-1, sp_2[1][1]+1]
+        #            # sinon, on déplace en sp
+        #            else:
+        #                meilleur_type = 'D'
+        #                meilleure_pos = sp_1[1]
+        #        # sinon, on déplace sur sp
+        #        else:
+        #            meilleur_type = 'D'
+        #            meilleure_pos = sp_1[1]
+        #    # sinon, si son prochain move est horizontal a droite:
+            elif sp_2[0][0] < sp_2[1][0] and sp_2[1] not in sp_1[:2]:
+        #        # si [x, y-1] du sp1 est libre, on veut placer un mur vertical en [x, y-1] du sp1
+        #        if [sp_2[1][0], sp_2[1][1]-1] not in taken and [sp_2[1][0], sp_2[1][1]] not in taken and [sp_2[1][0], sp_2[1][1]-1] not in sp_1:# and sp_2[1] not in sp_1:
+                meilleur_type = 'MV'
+                #meilleure_pos = sp_2[1]
+                meilleure_pos = [sp_2[1][0], sp_2[1][1]-1]
+        #           # si la position du mur est légale, on place le mur
+        #            if sp_2[1][0] > 1 and sp_2[1][1] > 1:
+        #                print('vérif 3 :', [sp_2[1][0], sp_2[1][1]-1])
+        #                meilleur_type = 'MV'
+        #                meilleure_pos = [sp_2[1][0], sp_2[1][1]-1]
+        #            # sinon on déplace en sp
+        #            else:
+        #                meilleur_type = 'D'
+        #                meilleure_pos = sp_1[1]
+        #        # sinon, si [x, y+1] du sp1 est libre, on veut placer un mur vertical au sp1
+        #        elif [sp_2[1][0], sp_2[1][1]+1] not in taken and [sp_2[1][0], sp_2[1][1]] not in taken and [sp_2[1][0], sp_2[1][1]] not in sp_1:# and sp_2[1] not in sp_1:
+        #            # Si la position du mur est légale, on place le mur
+        #            if sp_2[1][0] > 1 and sp_2[1][1] >= 1 and sp_2[1][1] <= 8:
+        #                print('vérif 4 :', [sp_2[1][0]-1, sp_2[1][1]])
+        #                meilleur_type = 'MV'
+        #                meilleure_pos = sp_2[1]
+        #            # sinon, on déplace en sp
+        #            else:
+        #                meilleur_type = 'D'
+        #                meilleure_pos = sp_1[1]
+        #        # sinon, on déplace sur sp
+        #        else:
+        #            meilleur_type = 'D'
+        #            meilleure_pos = sp_1[1]
+        #    # sinon (move horizontal a gauche)
             else:
-                # si [x+1, y-1] du sp1 est libre, on veut placer un mur vertical en [x+1, y-1] du sp1
-                if [sp_2[1][0]+1, sp_2[1][1]-1] not in taken and [sp_2[1][0]+1, sp_2[1][1]] not in taken and [sp_2[1][0]+1, sp_2[1][1]-1] not in sp_1:# and sp_2[1] not in sp_1:
-                    # si la position du mur est légale, on place le mur
-                    if sp_2[1][0] > 1 and sp_2[1][1] > 1:
-                        print('vérif 5 :', [sp_2[1][0], sp_2[1][1]-1])
-                        meilleur_type = 'MV'
-                        meilleure_pos = [sp_2[1][0]+1, sp_2[1][1]-1]
-                    # sinon on déplace en sp
-                    else:
-                        meilleur_type = 'D'
-                        meilleure_pos = sp_1[1]
-                # sinon, si [x+1, y+1] du sp1 est libre, on veut placer un mur vertical a [x+1, y] du sp1
-                elif [sp_2[1][0]+1, sp_2[1][1]+1] not in taken and [sp_2[1][0]+1, sp_2[1][1]] not in taken and [sp_2[1][0]+1, sp_2[1][1]] not in sp_1:# and sp_2[1] not in sp_1:
-                    # Si la position du mur est légale, on place le mur
-                    if sp_2[1][0] > 1 and sp_2[1][1] >= 1 and sp_2[1][1] <= 8:
-                        print('vérif 6 :', [sp_2[1][0]-1, sp_2[1][1]])
-                        meilleur_type = 'MV'
-                        meilleure_pos = [sp_2[1][0]+1, sp_2[1][1]]
-                    # sinon, on déplace en sp
-                    else:
-                        meilleur_type = 'D'
-                        meilleure_pos = sp_1[1]
-                # sinon, on déplace sur sp
+                if sp_2[1] not in sp_1[:2]:
+        #        # si [x+1, y-1] du sp1 est libre, on veut placer un mur vertical en [x+1, y-1] du sp1
+        #        if [sp_2[1][0]+1, sp_2[1][1]-1] not in taken and [sp_2[1][0]+1, sp_2[1][1]] not in taken and [sp_2[1][0]+1, sp_2[1][1]-1] not in sp_1:# and sp_2[1] not in sp_1:
+                    meilleur_type = 'MV'
+                    meilleure_pos = [sp_2[1][0]+1, sp_2[1][1]-1]
+                    #meilleure_pos = sp_2[1]
                 else:
                     meilleur_type = 'D'
                     meilleure_pos = sp_1[1]
-        # sinon, je deplace sur sp
+                    #meilleure_pos = [sp_2[1][0]+1, sp_2[1][1]-1]
+        # # si la position du mur est légale, on place le mur
+        #            if sp_2[1][0] > 1 and sp_2[1][1] > 1:
+        #                print('vérif 5 :', [sp_2[1][0], sp_2[1][1]-1])
+        #                meilleur_type = 'MV'
+        #                meilleure_pos = [sp_2[1][0]+1, sp_2[1][1]-1]
+        #            # sinon on déplace en sp
+        #            else:
+        #                meilleur_type = 'D'
+        #                meilleure_pos = sp_1[1]
+        #        # sinon, si [x+1, y+1] du sp1 est libre, on veut placer un mur vertical a [x+1, y] du sp1
+        #        elif [sp_2[1][0]+1, sp_2[1][1]+1] not in taken and [sp_2[1][0]+1, sp_2[1][1]] not in taken and [sp_2[1][0]+1, sp_2[1][1]] not in sp_1:# and sp_2[1] not in sp_1:
+        #            # Si la position du mur est légale, on place le mur
+        #            if sp_2[1][0] > 1 and sp_2[1][1] >= 1 and sp_2[1][1] <= 8:
+        #                print('vérif 6 :', [sp_2[1][0]-1, sp_2[1][1]])
+        #                meilleur_type = 'MV'
+        #                meilleure_pos = [sp_2[1][0]+1, sp_2[1][1]]
+        #            # sinon, on déplace en sp
+        #            else:
+        #                meilleur_type = 'D'
+        #                meilleure_pos = sp_1[1]
+        #        # sinon, on déplace sur sp
+        #        else:
+        #            meilleur_type = 'D'
+        #            meilleure_pos = sp_1[1]
+        ## sinon, je deplace sur sp
         else:
             meilleur_type = 'D'
             meilleure_pos = sp_1[1]
@@ -557,25 +576,16 @@ class Quoridor:
         
         
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        #if len(sp_2) <= len(sp_1) and nb_murs > 0:
+        # DEUXIEME ITERATION
+        #meilleur_type = 'D'
+        #meilleure_pos = list(sp_1[1])
+        #if len(sp_2) < len(sp_1) and nb_murs > 0:
             #j'y calisse un mur dans face
             # Si déplacement vertical
         #    if sp_2[1][1] != sp_2[0][1]:
         #        for i in sp_2[1:-1]:
         #            if [i[0], i[1]+1] not in pmurs_h and [i[0]+1, i[1]+1] not in taken and i[0] < 9 and i[0] >= 1 and i[1] <= 8 and i not in sp_1:
-        #                if i[0] == 9 or [i[0]+1, i[1]] in taken:
+        #               if i[0] == 9 or [i[0]+1, i[1]] in taken:
         #                    meilleur_type = 'MH'
         #                    meilleure_pos = [i[0]-1, i[1]+1]
         #                    break
@@ -613,41 +623,51 @@ class Quoridor:
         #return (meilleur_type, meilleure_pos)
 
 
-        # si shortest path du robot = déplacement vertical, on met un mur horziontal
+
+        # PREMIERE ITERATION
+        #si shortest path du robot = déplacement vertical, on met un mur horziontal
         #if sp_2[1][1] != sp_2[0][1] and nb_murs > 0 and len(sp_2) < len(sp_1) :#and len(sp_2) <= 5:
             #for i in sp_2[1:-1]:
-                #print(i)
-                #if [i[0], i[1]+1] not in pmurs_h and [i[0]+1, i[1]+1] not in taken and i[0] < 9 and i[0] >= 1 and i[1] <= 8 and i not in sp_1:
-                    #if i[0] == 9 or [i[0]+1, i[1]] in taken:
-        #                #meilleur_type = 'MH'
+        #        #print(i)
+        #        if [i[0], i[1]+1] not in pmurs_h and [i[0]+1, i[1]+1] not in taken and i[0] < 9 and i[0] >= 1 and i[1] <= 8 and i not in sp_1:
+        #            if i[0] == 9 or [i[0]+1, i[1]] in taken:
+        #                meilleur_type = 'MH'
         #                meilleure_pos = [i[0]-1, i[1]+1]
         #                break
         #            else: 
         #                meilleur_type = 'MH'
         #                meilleure_pos = [i[0], i[1]+1]
         #                break
-        # Sinon, si shortest path du robot = déplacement horizontal, on met un mur vertical :
-        # Déplacement vers la droite
+        #        else:
+        #            continue
+        ## Sinon, si shortest path du robot = déplacement horizontal, on met un mur vertical :
+        ## Déplacement vers la droite
         #elif sp_2[1][0] > sp_2[0][0] and nb_murs > 0 and len(sp_2) < len(sp_1) :#and len(sp_2) <= 10:
         #    for i in sp_2[1:-1]:
-        #        print(i)
+        ##        print(i)
         #        if [i[0]+1, i[1]] not in pmurs_v and [i[0]+1, i[1]+1] not in taken and i[1] < 9 and i[1] >= 1 and i[0] <= 8 and i not in sp_1:
         #            meilleur_type = 'MV'
         #            meilleure_pos = [i[0]+1, i[1]]
         #            break
-        ## Déplacement vers la gauche
+        #        else:
+        #            continue
+        ### Déplacement vers la gauche
         #elif sp_2[1][0] < sp_2[0][0] and nb_murs > 0 and len(sp_2) < len(sp_1) :#and len(sp_2) <= 10:
         #    for i in sp_2[1:-1]:
-        #        print(i)
+        ##        print(i)
         #        if [i[0]+1, i[1]] not in pmurs_v and [i[0]+1, i[1]+1] not in taken and i[1] < 9 and i[1] >= 1 and i[0] <= 8 and i not in sp_1:
         #            meilleur_type = 'MV'
         #            meilleure_pos = [i[0]+1, i[1]]
-        #            break 
+        #            break
+        #        else:
+        #            continue
         #else:
         #    meilleur_type = 'D'
         #    meilleure_pos = list(sp_1[1])
-        # 
-        # return (meilleur_type, meilleure_pos)
+       # 
+       # return (meilleur_type, meilleure_pos)
+
+
 
         # VÉRIFICATION DU PLACEMENT DE MURS FONCTIONNE PAS
         #if meilleur_type == 'MH':

@@ -6,6 +6,7 @@ import turtle
 from api import débuter_partie, jouer_coup
 from quoridor import Quoridor
 from utilitaire import analyser_commande
+import networkx as nx
 
 # Mettre ici votre secret récupéré depuis le site de PAX
 #SECRET = "f9ee39b5-284b-4512-a48b-1afd5b3df259"
@@ -25,10 +26,49 @@ if __name__ == "__main__":
             # Un buffer de temps
             input('Appuyez sur Enter pour continuer')
             # Le joueur joue son meilleur coup
-            type_coup, position = game.jouer_le_coup()
-            print(type_coup, position)
+            try:
+                print('dans le 1er try')
+                type_coup, position = game.jouer_le_coup()
+                id_partie, état = jouer_coup(id_partie, type_coup, position, args.idul, SECRET)
+            except (PermissionError, RuntimeError):
+                try:
+                    print('dans le 2e try')
+                    print('premiere exception')
+                    type_coup = 'D'
+                    position = list(nx.shortest_path(game.graphe, tuple(game.état['joueurs'][0]['pos']), "B1"))[1]
+                    print(type_coup, position)
+                    id_partie, état = jouer_coup(id_partie, type_coup, position, args.idul, SECRET)
+                except (StopIteration):
+                    print('2e exception')
+                    print('va chier', game.est_terminée)
+                    break
+            except (StopIteration):
+                print('va chier', game.est_terminée)
+                break
+                
+                
+                
+                #print('dans le except')
+                #try:
+                #    type_coup = 'D'
+                #    position = list(nx.shortest_path(game.graphe, tuple(game.état['joueurs'][0]['pos']), "B1"))[1]
+                #    id_partie, état = jouer_coup(id_partie, type_coup, position, args.idul, SECRET)
+                #except:
+                #    print('dans le  2e except')
+                #    break
+                #print('dans le except')
+                #print(game.état['joueurs'][0]['pos'], game.état['joueurs'][1]['pos'])
+                #if game.état['joueurs'][1]['pos'][1] == 1:
+                #    print('je break')
+                #    break
+                #else:
+                #    print('Je deplace')
+                #    type_coup = 'D'
+                #    position = list(nx.shortest_path(game.graphe, tuple(game.état['joueurs'][0]['pos']), "B1"))[1]
+                #    id_partie, état = jouer_coup(id_partie, type_coup, position, args.idul, SECRET)
+            #print(type_coup, position)
             # Envoyer le coup au serveur
-            id_partie, état = jouer_coup(id_partie, type_coup, position, args.idul, SECRET)
+            #id_partie, état = jouer_coup(id_partie, type_coup, position, args.idul, SECRET)
     elif args.graphique:
     # Mode manuel avec affichage
         pass
