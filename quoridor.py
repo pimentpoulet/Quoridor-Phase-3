@@ -243,18 +243,21 @@ class Quoridor:
         Returns:
             str/bool: Le nom du gagnant si la partie est terminée; False autrement.
         """
+        #print(self.état['joueurs'][0]['pos'], self.état['joueurs'][1]['pos'])
         # JOUEUR 1 :
-
-        if self.état['joueurs'][0]['pos'][1] == 9:
-            return self.état['joueurs'][0]['nom']
+        if self.état['joueurs'][0]['pos'][1] == 8:
+            print('Le gagnant est : ', self.état['joueurs'][0]['nom'])
+            #return str(self.état['joueurs'][0]['nom'])
 
         # JOUEUR 2 :
-
-        if self.état['joueurs'][1]['pos'][1] == 1:
-            return self.état['joueurs'][1]['nom']
+        elif self.état['joueurs'][1]['pos'][1] == 2:
+            print('Le gagnant est : ', self.état['joueurs'][1]['nom'])
+            #return str(self.état['joueurs'][1]['nom'])
 
         #  SI PAS DE GAGNANT :
-        return False
+        else:
+            print('Hey le cave')
+            #return False
 
 
     def récupérer_le_coup(self, joueur):
@@ -461,7 +464,8 @@ class Quoridor:
         
         # TROISIEME ITERATION
         #si la longueur de son shortest path est <= 10 et qu'il reste des murs et que son sp est + petit que moi, on met un mur
-        if len(sp_2) <= len(sp_1)+3 and nb_murs > 0 and len(sp_2) <= 9:
+        # AJUSTER LES PARAMETRES DE MON BOT
+        if len(sp_2) <= len(sp_1)+1 and nb_murs > 0 and len(sp_2) <= 10:
         #    print('shortest path du robot :', sp_2[1])
         #    # si son prochain move du sp1 est vertical:
             if sp_2[1][1] != sp_2[0][1] and sp_2[1] not in sp_1[:2]:
