@@ -245,19 +245,19 @@ class Quoridor:
         """
         #print(self.état['joueurs'][0]['pos'], self.état['joueurs'][1]['pos'])
         # JOUEUR 1 :
-        if self.état['joueurs'][0]['pos'][1] == 8:
-            print('Le gagnant est : ', self.état['joueurs'][0]['nom'])
-            #return str(self.état['joueurs'][0]['nom'])
+        if self.état['joueurs'][0]['pos'][1] == 9:
+            #print('Le gagnant est : ', self.état['joueurs'][0]['nom'])
+            return self.état['joueurs'][0]['nom']
 
         # JOUEUR 2 :
-        elif self.état['joueurs'][1]['pos'][1] == 2:
-            print('Le gagnant est : ', self.état['joueurs'][1]['nom'])
-            #return str(self.état['joueurs'][1]['nom'])
+        elif self.état['joueurs'][1]['pos'][1] == 1:
+            #print('Le gagnant est : ', self.état['joueurs'][1]['nom'])
+            return self.état['joueurs'][1]['nom']
 
         #  SI PAS DE GAGNANT :
         else:
-            print('Hey le cave')
-            #return False
+            #print('Hey le cave')
+            return False
 
 
     def récupérer_le_coup(self, joueur):

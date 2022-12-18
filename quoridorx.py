@@ -19,11 +19,10 @@ class QuoridorX(Quoridor):
         Méthode pour afficher l'état de jeu graphiquement
         """
 
-
         # Créer un objet screen
         sc = turtle.Screen()
         sc.title('Jeu Quoridor')
-        turtle.bgcolor('dim grey')
+        turtle.bgcolor('light salmon')
 
 
         # Tortues pour le damier
@@ -85,7 +84,6 @@ class QuoridorX(Quoridor):
         
         dbitch7.penup()
         dbitch7.setpos(-225, -275)
-
 
 
         # COMMENCEMENT DU DESSIN
@@ -212,17 +210,18 @@ class QuoridorX(Quoridor):
         dbitch7.right(90)
         dbitch7.forward(470)
         dbitch7.pendown()
+        #dbitch7.write(self.formater_légende(), font=("Monaco", 18, "normal"))
         dbitch7.write(f"Légende:\n\n1={self.état['joueurs'][0]['nom']},{c_1*' '}murs={self.état['joueurs'][0]['murs']*'|'}{(k_1-1)*' '} (royal blue)\n\n2={self.état['joueurs'][1]['nom']},{c_2*' '}murs={self.état['joueurs'][1]['murs']*'|'}{(k_2-1)*' '} (orange red)\n", font=("Monaco", 18, "normal"))
 
         move = sc.textinput("Quel type de coup voulez-vous jouer?", "(D, MH, MV)")
 
         if move in ['D', 'MH' 'MV']:
-
-            position = sc.textinput("À quelle position voulez-vous jouer?", "(x, y)")
+            
+            position2 = sc.textinput("À quelle position voulez-vous jouer?", "(x, y)")
 
         turtle.Screen().exitonclick()
+        return move, position2
 
+#x = QuoridorX([{"nom": "Alfred", "murs": 7, "pos": [5, 5]}, {"nom": "Robin", "murs": 3, "pos": [8, 6]}], {"horizontaux": [[4, 4], [2, 6], [3, 8], [5, 8], [7, 8]], "verticaux": [[6, 2], [4, 4], [2, 6], [7, 5], [7, 7]]})
 
-x = QuoridorX([{"nom": "Alfred", "murs": 7, "pos": [5, 5]}, {"nom": "Robin", "murs": 3, "pos": [8, 6]}], {"horizontaux": [[4, 4], [2, 6], [3, 8], [5, 8], [7, 8]], "verticaux": [[6, 2], [4, 4], [2, 6], [7, 5], [7, 7]]})
-
-x.afficher()
+#x.afficher()
