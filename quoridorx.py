@@ -215,14 +215,17 @@ class QuoridorX(Quoridor):
 
         move = sc.textinput("Quel type de coup voulez-vous jouer?", "(D, MH, MV)")
 
+        position2 = []
         if move in ['D', 'MH' 'MV']:
             
-            position2 = sc.textinput("À quelle position voulez-vous jouer?", "(x, y)")
-            print(move, position2)
+            position1 = sc.textinput("À quelle position voulez-vous jouer?", "(x, y)")
+            
+            position2.append(int(position1[0]))
+            position2.append(int(position1[2]))
 
-        turtle.Screen().exitonclick()
-
-        return move, position2
+        #turtle.Screen().exitonclick()
+        sc.clear()
+        return (move, position2)
 
 
 #x = QuoridorX([{"nom": "Alfred", "murs": 6, "pos": [5, 5]}, {"nom": "Robin", "murs": 3, "pos": [8, 6]}], {"horizontaux": [[4, 4], [2, 6], [3, 8], [5, 8], [7, 8], [5, 5]], "verticaux": [[6, 2], [4, 4], [2, 6], [7, 5], [7, 7]]})
