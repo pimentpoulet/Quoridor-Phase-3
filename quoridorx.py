@@ -11,7 +11,7 @@ class QuoridorX(Quoridor):
         Constructeur de QuoridorX
         """
 
-        super(QuoridorX, self).__init__(*args)
+        super().__init__(*args)
 
 
     def afficher(self):
@@ -210,7 +210,7 @@ class QuoridorX(Quoridor):
         dbitch7.right(90)
         dbitch7.forward(470)
         dbitch7.pendown()
-        #dbitch7.write(self.formater_légende(), font=("Monaco", 18, "normal"))
+
         dbitch7.write(f"Légende:\n\n1={self.état['joueurs'][0]['nom']},{c_1*' '}murs={self.état['joueurs'][0]['murs']*'|'}{(k_1-1)*' '} (royal blue)\n\n2={self.état['joueurs'][1]['nom']},{c_2*' '}murs={self.état['joueurs'][1]['murs']*'|'}{(k_2-1)*' '} (orange red)\n", font=("Monaco", 18, "normal"))
 
         move = sc.textinput("Quel type de coup voulez-vous jouer?", "(D, MH, MV)")
@@ -218,10 +218,12 @@ class QuoridorX(Quoridor):
         if move in ['D', 'MH' 'MV']:
             
             position2 = sc.textinput("À quelle position voulez-vous jouer?", "(x, y)")
+            print(move, position2)
 
         turtle.Screen().exitonclick()
+
         return move, position2
 
-#x = QuoridorX([{"nom": "Alfred", "murs": 7, "pos": [5, 5]}, {"nom": "Robin", "murs": 3, "pos": [8, 6]}], {"horizontaux": [[4, 4], [2, 6], [3, 8], [5, 8], [7, 8]], "verticaux": [[6, 2], [4, 4], [2, 6], [7, 5], [7, 7]]})
 
+#x = QuoridorX([{"nom": "Alfred", "murs": 6, "pos": [5, 5]}, {"nom": "Robin", "murs": 3, "pos": [8, 6]}], {"horizontaux": [[4, 4], [2, 6], [3, 8], [5, 8], [7, 8], [5, 5]], "verticaux": [[6, 2], [4, 4], [2, 6], [7, 5], [7, 7]]})
 #x.afficher()

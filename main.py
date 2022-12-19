@@ -62,52 +62,111 @@ if __name__ == "__main__":
 
         id_partie, état = débuter_partie(args.idul, SECRET)
 
-        while True:
+        game = QuoridorX(état['joueurs'], état['murs'])
 
-            game = QuoridorX(état['joueurs'], état['murs'])
+        while True:
+            #print(état['joueurs'], état['murs'])
 
             # Afficher la partie
             game.afficher()
 
+            move, position2 = game.afficher(1)
+
+
+            if move == 'D':
+                game.déplacer_jeton(1, position2)
+            elif move == 'MH':
+                game.placer_un_mur(1, position2, 'horizontal')
+            elif move == 'MV':
+                game.placer_un_mur(1, position2, 'vertical')
+
+            game.état = game.vérification(game.état['joueurs'], game.état['murs'])
+
+            game.afficher()
+
+            id_partie, game.état = jouer_coup(id_partie, move, position2, args.idul, SECRET,)
+
+
+
+        #id_partie, état = débuter_partie(args.idul, SECRET)
+
+        #while True:
+
+        #    game = QuoridorX(état['joueurs'], état['murs'])
+
+            # Afficher la partie
+        #    game.afficher()
+
             # Transmettre le coup à jouer
-            move, position2 = game.afficher()
-            print(move, position2)
+        #    move, position2 = game.afficher()
+        #    print(move, position2)
             # Envoyer le coup au serveur
-            id_partie, état = jouer_coup(id_partie, move, position2, args.idul, SECRET)
+        #    id_partie, état = jouer_coup(id_partie, move, position2, args.idul, SECRET)
 
 
 
     elif args.automatique and args.graphique:
     # Mode automatique avec affichage
+
         id_partie, état = débuter_partie(args.idul, SECRET)
+
+        game = QuoridorX(état['joueurs'], état['murs'])
+
         while True:
             #print(état['joueurs'], état['murs'])
-            game = QuoridorX(état['joueurs'], état['murs'])
+
             # Afficher la partie
             game.afficher()
-            # Un buffer de temps
-            #input('Appuyez sur Enter pour continuer')
+
+            move, position2 = game.afficher(1)
+
+
+            if move == 'D':
+                game.déplacer_jeton(1, position2)
+            elif move == 'MH':
+                game.placer_un_mur(1, position2, 'horizontal')
+            elif move == 'MV':
+                game.placer_un_mur(1, position2, 'vertical')
+            
+            game.état = game.vérification(game.état['joueurs'], game.état['murs'])
+
+
+            game.afficher()
+
+
+            id_partie, game.état = jouer_coup(id_partie, move, position2, args.idul, SECRET,)
+
+
+
+
 
             # Le joueur joue son meilleur coup
-            try:
+#            try:
                 #print('dans le 1er try')
-                type_coup, position = game.jouer_le_coup()
-                id_partie, état = jouer_coup(id_partie, type_coup, position, args.idul, SECRET)
-            except (PermissionError, RuntimeError):
-                try:
-                    print('dans le 2e try')
-                    type_coup = 'D'
-                    position = list(nx.shortest_path(game.graphe, tuple(game.état['joueurs'][0]['pos']), "B1"))[1]
+
+ #               type_coup, position2 = game.afficher()
+  #              id_partie, état = jouer_coup(id_partie, type_coup, position, args.idul, SECRET)
+   #         except (PermissionError, RuntimeError):
+
+    #            try:
+     #               print('dans le 2e try')
+      #              type_coup = 'D'
+       #             position = list(nx.shortest_path(game.graphe, tuple(game.état['joueurs'][0]['pos']), "B1"))[1]
                     #print(type_coup, position)
-                    id_partie, état = jouer_coup(id_partie, type_coup, position, args.idul, SECRET)
-                except (StopIteration):
+        #            id_partie, état = jouer_coup(id_partie, type_coup, position, args.idul, SECRET)
+         #       except (StopIteration):
                     #print('2e exception')
-                    game.est_terminée()
-                    break
-            except (StopIteration):
+          #          game.est_terminée()
+           #         break
+
+
+
+            #except (StopIteration):
                 #print('3e exception')
-                game.est_terminée()
-                break
+             #   game.est_terminée()
+              #  break
+
+
 
                 #print('dans le except')
                 #try:
@@ -129,7 +188,10 @@ if __name__ == "__main__":
                 #    id_partie, état = jouer_coup(id_partie, type_coup, position, args.idul, SECRET)
             #print(type_coup, position)
             # Envoyer le coup au serveur
-            id_partie, état = jouer_coup(id_partie, type_coup, position, args.idul, SECRET)
+            
+
+
+            #id_partie, état = jouer_coup(id_partie, type_coup, position, args.idul, SECRET)
 
 
 
@@ -161,6 +223,3 @@ if __name__ == "__main__":
         "verticaux": [[6, 2], [4, 4], [2, 6], [7, 5], [7, 7]],
     },
 }
-
-game = Quoridor(état['joueurs'], état['murs'])
-
