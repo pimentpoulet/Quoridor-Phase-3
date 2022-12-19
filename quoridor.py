@@ -84,7 +84,8 @@ class Quoridor:
             raise QuoridorError('L\'argument \'murs\' n\'est pas un dictionnaire.')
 
         # Si le joueur 1 est un string, on crée un nouveau joueur sous forme de dictionnaire
-        print(joueurs)
+        #print(joueurs)
+        #print(joueurs[0])
         if isinstance(joueurs[0], str):
             joueurs[0] = {'nom':joueurs[0], 'pos':[5, 1], 'murs':10}
 
@@ -120,6 +121,16 @@ class Quoridor:
                 raise QuoridorError('La position d\'un mur est invalide.')
             if i[1] >= 9:
                 raise QuoridorError('La position d\'un mur est invalide.')
+
+        # Test de la position des joueurs
+        if joueurs[0]['pos'][0] > 9 or joueurs[0]['pos'][0] < 1:
+            raise QuoridorError("La position d'un joueur est invalide.")
+        if joueurs[0]['pos'][1] > 9 or joueurs[0]['pos'][1] < 1:
+            raise QuoridorError("La position d'un joueur est invalide.")
+        if joueurs[1]['pos'][0] > 9 or joueurs[1]['pos'][0] < 1:
+            raise QuoridorError("La position d'un joueur est invalide.")
+        if joueurs[1]['pos'][1] > 9 or joueurs[1]['pos'][1] < 1:
+            raise QuoridorError("La position d'un joueur est invalide.")
 
         # Crée l'état de jeu avec les données
         gamestate = {"joueurs": [joueurs[0], joueurs[1]], "murs": murs}

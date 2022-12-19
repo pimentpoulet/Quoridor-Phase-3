@@ -50,26 +50,6 @@ if __name__ == "__main__":
                 #print('3e exception')
                 game.est_terminée()
                 break
-
-                #print('dans le except')
-                #try:
-                #    type_coup = 'D'
-                #    position = list(nx.shortest_path(game.graphe, tuple(game.état['joueurs'][0]['pos']), "B1"))[1]
-                #    id_partie, état = jouer_coup(id_partie, type_coup, position, args.idul, SECRET)
-                #except:
-                #    print('dans le  2e except')
-                #    break
-                #print('dans le except')
-                #print(game.état['joueurs'][0]['pos'], game.état['joueurs'][1]['pos'])
-                #if game.état['joueurs'][1]['pos'][1] == 1:
-                #    print('je break')
-                #    break
-                #else:
-                #    print('Je deplace')
-                #    type_coup = 'D'
-                #    position = list(nx.shortest_path(game.graphe, tuple(game.état['joueurs'][0]['pos']), "B1"))[1]
-                #    id_partie, état = jouer_coup(id_partie, type_coup, position, args.idul, SECRET)
-            #print(type_coup, position)
             # Envoyer le coup au serveur
             id_partie, état = jouer_coup(id_partie, type_coup, position, args.idul, SECRET)
 
@@ -170,6 +150,7 @@ if __name__ == "__main__":
 
             # Envoyer le coup au serveur
             id_partie, état = jouer_coup(id_partie, type_coup, position, args.idul, SECRET)
+
 état = {
     "joueurs": [
         {"nom": "Alfred", "murs": 7, "pos": [5, 5]},
@@ -180,5 +161,6 @@ if __name__ == "__main__":
         "verticaux": [[6, 2], [4, 4], [2, 6], [7, 5], [7, 7]],
     },
 }
-game = Quoridor(état)
+
+game = Quoridor(état['joueurs'], état['murs'])
 
