@@ -12,10 +12,10 @@ import networkx as nx
 # Mettre ici votre secret récupéré depuis le site de PAX
 
 # Secret de Clément
-SECRET = "f9ee39b5-284b-4512-a48b-1afd5b3df259"
+#SECRET = "f9ee39b5-284b-4512-a48b-1afd5b3df259"
 
 # Secret de Chris
-#SECRET = "493162ca-e829-48c5-9e94-3d43b9497375"
+SECRET = "493162ca-e829-48c5-9e94-3d43b9497375"
 
 if __name__ == "__main__":
     args = analyser_commande()
@@ -32,10 +32,10 @@ if __name__ == "__main__":
             input('Appuyez sur Enter pour continuer')
             # Le joueur joue son meilleur coup
             try:
-                #print('dans le 1er try')
+                print('dans le 1er try')
                 type_coup, position = game.jouer_le_coup()
                 id_partie, état = jouer_coup(id_partie, type_coup, position, args.idul, SECRET)
-            except (PermissionError, RuntimeError):
+            except (RuntimeError, PermissionError):
                 try:
                     print('dans le 2e try')
                     type_coup = 'D'
@@ -43,15 +43,14 @@ if __name__ == "__main__":
                     #print(type_coup, position)
                     id_partie, état = jouer_coup(id_partie, type_coup, position, args.idul, SECRET)
                 except (StopIteration):
-                    #print('2e exception')
                     game.est_terminée()
                     break
             except (StopIteration):
-                #print('3e exception')
+                print('3e exception')
                 game.est_terminée()
                 break
             # Envoyer le coup au serveur
-            id_partie, état = jouer_coup(id_partie, type_coup, position, args.idul, SECRET)
+            #id_partie, état = jouer_coup(id_partie, type_coup, position, args.idul, SECRET)
 
 
 

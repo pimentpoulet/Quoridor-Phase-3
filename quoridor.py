@@ -255,21 +255,17 @@ class Quoridor:
         Returns:
             str/bool: Le nom du gagnant si la partie est terminée; False autrement.
         """
-        #print(self.état['joueurs'][0]['pos'], self.état['joueurs'][1]['pos'])
         # JOUEUR 1 :
-        if self.état['joueurs'][0]['pos'][1] == 9:
-            #print('Le gagnant est : ', self.état['joueurs'][0]['nom'])
-            return self.état['joueurs'][0]['nom']
+        if self.état['joueurs'][0]['pos'][1] == 8:
+            print('Le gagnant est : ', self.état['joueurs'][0]['nom'])
 
         # JOUEUR 2 :
-        elif self.état['joueurs'][1]['pos'][1] == 1:
-            #print('Le gagnant est : ', self.état['joueurs'][1]['nom'])
-            return self.état['joueurs'][1]['nom']
+        elif self.état['joueurs'][1]['pos'][1] == 2:
+            print('Le gagnant est : ', self.état['joueurs'][1]['nom'])
 
         #  SI PAS DE GAGNANT :
         else:
-            #print('Hey le cave')
-            return False
+            print('Aucun gagnant')
 
 
     def récupérer_le_coup(self, joueur):
@@ -589,54 +585,6 @@ class Quoridor:
             meilleure_pos = sp_1[1]
 
         return (meilleur_type, meilleure_pos)
-        
-        
-        
-        # DEUXIEME ITERATION
-        #meilleur_type = 'D'
-        #meilleure_pos = list(sp_1[1])
-        #if len(sp_2) < len(sp_1) and nb_murs > 0:
-            #j'y calisse un mur dans face
-            # Si déplacement vertical
-        #    if sp_2[1][1] != sp_2[0][1]:
-        #        for i in sp_2[1:-1]:
-        #            if [i[0], i[1]+1] not in pmurs_h and [i[0]+1, i[1]+1] not in taken and i[0] < 9 and i[0] >= 1 and i[1] <= 8 and i not in sp_1:
-        #               if i[0] == 9 or [i[0]+1, i[1]] in taken:
-        #                    meilleur_type = 'MH'
-        #                    meilleure_pos = [i[0]-1, i[1]+1]
-        #                    break
-        #                else: 
-        #                    meilleur_type = 'MH'
-        #                    meilleure_pos = [i[0], i[1]+1]
-        #                    break
-        #            else:
-        #                continue
-        #    else:
-        #        # Déplacement a a droite
-        #        if sp_2[1][0] > sp_2[0][0]:
-        #            for i in sp_2[1:-1]:
-        #                print(i)
-        #                if [i[0]+1, i[1]] not in pmurs_v and [i[0]+1, i[1]+1] not in taken and i[1] < 9 and i[1] >= 1 and i[0] <= 8 and i not in sp_1:
-        #                    meilleur_type = 'MV'
-        #                    meilleure_pos = [i[0]+1, i[1]]
-        #                    break
-        #                else:
-        #                    continue
-        #        else:
-        #            # Déplacement a gauche
-        #            for i in sp_2[1:-1]:
-        #                print(i)
-        #                if [i[0]+1, i[1]] not in pmurs_v and [i[0]+1, i[1]+1] not in taken and i[1] < 9 and i[1] >= 1 and i[0] <= 8 and i not in sp_1:
-        #                    meilleur_type = 'MV'
-        #                    meilleure_pos = [i[0]+1, i[1]]
-        #                    break
-        #                else:
-        #                    continue
-        #else:
-        #    meilleur_type = 'D'
-        #    meilleure_pos = list(sp_1[1])
-
-        #return (meilleur_type, meilleure_pos)
 
 
 
@@ -683,35 +631,3 @@ class Quoridor:
        # 
        # return (meilleur_type, meilleure_pos)
 
-
-
-        # VÉRIFICATION DU PLACEMENT DE MURS FONCTIONNE PAS
-        #if meilleur_type == 'MH':
-        #   new_murs_h = list(murs_horizontaux)
-        #    new_murs_h.append(meilleure_pos)
-        #    #print('if vérification shortest path')
-        #    print('anciens murs h:', murs_horizontaux)
-        #    print('nouveau murs h:', new_murs_h)
-        #    #print('en ordre :', sorted(murs_horizontaux))
-        #    #print('nouveau murs :', new_murs_h, type(new_murs_h))
-        #    new_graph = construire_graphe([pj1, pj2], new_murs_h, murs_verticaux)
-        #    new_sp = list(nx.shortest_path(new_graph, tuple(pj2), "B2"))
-        #    print('Nouveau shortest path', new_sp)
-        #    if new_sp[0] != 'B2':
-        #        return (meilleur_type, meilleure_pos)
-        #    else:
-        #        return ('D', list(sp_1[1]))
-        #elif meilleur_type == 'MV':
-        #    new_murs_v = list(murs_verticaux)
-        #    new_murs_v.append(meilleure_pos)
-        #    print('anciens murs v:', murs_verticaux)
-        #    print('nouveau murs v:', new_murs_v)
-        #    #print('en ordre :', sorted(murs_verticaux))
-        #    #print('nouveau murs :', new_murs_v, type(new_murs_v))
-        #    new_graph = construire_graphe([pj1, pj2], murs_horizontaux, new_murs_v)
-        #    new_sp = list(nx.shortest_path(new_graph, tuple(pj2), "B2"))
-        #    print('Nouveau shortest path', new_sp)
-        #    if new_sp[0] != 'B2':
-        #        return (meilleur_type, meilleure_pos)
-        #    else:
-        #        return ('D', list(sp_1[1]))
