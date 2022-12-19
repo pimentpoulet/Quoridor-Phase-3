@@ -32,7 +32,9 @@ if __name__ == "__main__":
 
             # Afficher la partie
             game.afficher()
-
+            turtle.mainloop()            
+            #time.sleep(5)
+            
             # Le joueur joue son meilleur coup
             try:
                 type_coup, position = game.jouer_le_coup()
@@ -49,7 +51,8 @@ if __name__ == "__main__":
                     game.est_terminée()
                     break
 
-            except (StopIteration):
+            except (StopIteration):                
+                turtle.Screen().exitonclick()
                 game.est_terminée()
                 break
 

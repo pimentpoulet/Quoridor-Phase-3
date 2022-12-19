@@ -13,20 +13,19 @@ class QuoridorX(Quoridor):
         """
 
         super().__init__(*args)
-
+        
+        self.sc = turtle.Screen()
 
     def afficher(self):
         """
         Méthode pour afficher l'état de jeu graphiquement
         """
-
+        
 
         # Créer un objet screen
-        sc = turtle.Screen()
-        sc.title('Jeu Quoridor')
+        #sc.title('Jeu Quoridor')
+        self.sc.title('Jeu Quoridor')
         turtle.bgcolor('light salmon')
-
-        sc.update()
 
 
         # Tortues pour le damier
@@ -58,10 +57,12 @@ class QuoridorX(Quoridor):
         # Tortue pour la légende
         dbitch7 = turtle.Turtle()
 
- 
+        
         # Créer l'écran
-        sc.setup(700, 850)
-        sc.tracer(n=0)
+        #sc.setup(700, 850)
+        self.sc.setup(700, 850)
+        #sc.tracer(n=0)
+        self.sc.tracer(n=0)
 
 
         # Centrer le dessin dans l'écran et relocaliser les tortues à la nouvelle origine
@@ -91,7 +92,7 @@ class QuoridorX(Quoridor):
 
 
         # COMMENCEMENT DU DESSIN
-
+        
         # dbitch1 trace les rectangles horizontaux
 
         for i in range(9):
@@ -156,7 +157,8 @@ class QuoridorX(Quoridor):
             y += 50
 
         # dbitch3 place le joueur 1
-
+        
+        
         dbitch3.penup()
         dbitch3.goto((self.état['joueurs'][0]['pos'][0]*50)-251, (self.état['joueurs'][0]['pos'][1]*50)-314)
         dbitch3.pendown()
@@ -173,10 +175,8 @@ class QuoridorX(Quoridor):
         dbitch4.circle(15)
         dbitch4.end_fill()
         
-#        time.sleep(0.5)
+        #time.sleep(0.5)
 
-#        dbitch3.clear()
-#        dbitch4.clear()
 
         # dbitch4 place les murs horizontaux
 
@@ -218,17 +218,18 @@ class QuoridorX(Quoridor):
         dbitch7.forward(470)
         dbitch7.pendown()
 
-        dbitch7.write(f"Légende:\n\nRoyal Blue={self.état['joueurs'][0]['nom']},{c_1*' '}murs={self.état['joueurs'][0]['murs']*'|'}{(k_1-1)*' '}\n\nOrange Red={self.état['joueurs'][1]['nom']},{c_2*' '}murs={self.état['joueurs'][1]['murs']*'|'}{(k_2-1)*' '}\n", font=("Monaco", 18, "normal"))
+        dbitch7.write(f"Légende:\n\nRoyal Blue = {self.état['joueurs'][0]['nom']}\n\nOrange Red = {self.état['joueurs'][1]['nom']}\n", font=("Monaco", 18, "normal"))
 
+#        time.sleep(3)
 
+        dbitch3.clear()
+        dbitch4.clear()
         
-
-                
-
+        #time.sleep(0.2)
+        #turtle.Screen().exitonclick()
 
 
         #move = sc.textinput("Quel type de coup voulez-vous jouer?", "(D, MH, MV)")
-
         #position2 = []
         #if move in ['D', 'MH' 'MV']:
             
@@ -237,7 +238,7 @@ class QuoridorX(Quoridor):
         #    position2.append(int(position1[0]))
         #    position2.append(int(position1[2]))
 
-        #turtle.Screen().exitonclick()
+        
         
         #return (move, position2)
 
