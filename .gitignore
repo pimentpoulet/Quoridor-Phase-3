@@ -12,5 +12,6 @@
 !/tests.py
 !/utilitaire.py
 !/Turtle_Joueurs_Murs
+!/quoridorx.py
 
 # Pas besoin d'inclure les bundles créés, ils devraient être ignorés automatiquement
