@@ -57,28 +57,21 @@ if __name__ == "__main__":
         game = QuoridorX(état['joueurs'], état['murs'])
 
         while True:
-            #print(état['joueurs'], état['murs'])
 
             # Afficher la partie
-            game.afficher()
-
-            move, position2 = game.afficher(1)
-
+            # Récupérer le coup du joueur
+            move, position = game.afficher()
 
             if move == 'D':
-                game.déplacer_jeton(1, position2)
+                game.déplacer_jeton(1, position)
             elif move == 'MH':
-                game.placer_un_mur(1, position2, 'horizontal')
+                game.placer_un_mur(1, position, 'horizontal')
             elif move == 'MV':
-                game.placer_un_mur(1, position2, 'vertical')
+                game.placer_un_mur(1, position, 'vertical')
 
             game.état = game.vérification(game.état['joueurs'], game.état['murs'])
 
-            game.afficher()
-
-            id_partie, game.état = jouer_coup(id_partie, move, position2, args.idul, SECRET,)
-
-
+            id_partie, game.état = jouer_coup(id_partie, move, position, args.idul, SECRET,)
 
         #id_partie, état = débuter_partie(args.idul, SECRET)
 
@@ -105,11 +98,9 @@ if __name__ == "__main__":
         game = QuoridorX(état['joueurs'], état['murs'])
 
         while True:
-            #print(état['joueurs'], état['murs'])
 
             # Afficher la partie
-            game.afficher()
-
+            
             move, position2 = game.afficher(1)
 
 
