@@ -84,6 +84,7 @@ class Quoridor:
             raise QuoridorError('L\'argument \'murs\' n\'est pas un dictionnaire.')
 
         # Si le joueur 1 est un string, on crée un nouveau joueur sous forme de dictionnaire
+        print(joueurs)
         if isinstance(joueurs[0], str):
             joueurs[0] = {'nom':joueurs[0], 'pos':[5, 1], 'murs':10}
 
