@@ -225,5 +225,5 @@ class QuoridorX(Quoridor):
         return move, position2
 
 
-x = QuoridorX([{"nom": "Alfred", "murs": 6, "pos": [5, 5]}, {"nom": "Robin", "murs": 3, "pos": [8, 6]}], {"horizontaux": [[4, 4], [2, 6], [3, 8], [5, 8], [7, 8], [5, 5]], "verticaux": [[6, 2], [4, 4], [2, 6], [7, 5], [7, 7]]})
-x.afficher()
+#x = QuoridorX([{"nom": "Alfred", "murs": 6, "pos": [5, 5]}, {"nom": "Robin", "murs": 3, "pos": [8, 6]}], {"horizontaux": [[4, 4], [2, 6], [3, 8], [5, 8], [7, 8], [5, 5]], "verticaux": [[6, 2], [4, 4], [2, 6], [7, 5], [7, 7]]})
+#x.afficher()

@@ -82,18 +82,46 @@ if __name__ == "__main__":
 
         id_partie, état = débuter_partie(args.idul, SECRET)
 
-        while True:
+        game = QuoridorX(état['joueurs'], état['murs'])
 
-            game = QuoridorX(état['joueurs'], état['murs'])
+        while True:
+            #print(état['joueurs'], état['murs'])
 
             # Afficher la partie
             game.afficher()
 
+            move, position2 = game.afficher(1)
+
+
+            if move == 'D':
+                game.déplacer_jeton(1, position2)
+            elif move == 'MH':
+                game.placer_un_mur(1, position2, 'horizontal')
+            elif move == 'MV':
+                game.placer_un_mur(1, position2, 'vertical')
+
+            game.état = game.vérification(game.état['joueurs'], game.état['murs'])
+
+            game.afficher()
+
+            id_partie, game.état = jouer_coup(id_partie, move, position2, args.idul, SECRET,)
+
+
+
+        #id_partie, état = débuter_partie(args.idul, SECRET)
+
+        #while True:
+
+        #    game = QuoridorX(état['joueurs'], état['murs'])
+
+            # Afficher la partie
+        #    game.afficher()
+
             # Transmettre le coup à jouer
-            move, position2 = game.afficher()
-            print(move, position2)
+        #    move, position2 = game.afficher()
+        #    print(move, position2)
             # Envoyer le coup au serveur
-            id_partie, état = jouer_coup(id_partie, move, position2, args.idul, SECRET)
+        #    id_partie, état = jouer_coup(id_partie, move, position2, args.idul, SECRET)
 
 
 
@@ -101,6 +129,7 @@ if __name__ == "__main__":
     # Mode automatique avec affichage
 
         id_partie, état = débuter_partie(args.idul, SECRET)
+
         game = QuoridorX(état['joueurs'], état['murs'])
 
         while True:
@@ -121,14 +150,12 @@ if __name__ == "__main__":
             
             game.état = game.vérification(game.état['joueurs'], game.état['murs'])
 
-            #time.sleep(0,05)
 
             game.afficher()
 
 
             id_partie, game.état = jouer_coup(id_partie, move, position2, args.idul, SECRET,)
 
-            #time.sleep(0,05)
 
 
 
@@ -205,3 +232,14 @@ if __name__ == "__main__":
 
             # Envoyer le coup au serveur
             id_partie, état = jouer_coup(id_partie, type_coup, position, args.idul, SECRET)
+
+état = {
+    "joueurs": [
+        {"nom": "Alfred", "murs": 7, "pos": [5, 5]},
+        {"nom": "Robin", "murs": 3, "pos": [8, 6]},
+    ],
+    "murs": {
+        "horizontaux": [[4, 4], [2, 6], [3, 8], [5, 8], [7, 8]],
+        "verticaux": [[6, 2], [4, 4], [2, 6], [7, 5], [7, 7]],
+    },
+}
