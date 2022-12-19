@@ -24,33 +24,26 @@ if __name__ == "__main__":
     # Mode automatique sans affichage
         id_partie, état = débuter_partie(args.idul, SECRET)
         while True:
-            #print(état['joueurs'], état['murs'])
             game = Quoridor(état['joueurs'], état['murs'])
             # Afficher la partie
             print(game)
             # Un buffer de temps
-            input('Appuyez sur Enter pour continuer')
+            #input('Appuyez sur Enter pour continuer')
             # Le joueur joue son meilleur coup
             try:
-                print('dans le 1er try')
                 type_coup, position = game.jouer_le_coup()
                 id_partie, état = jouer_coup(id_partie, type_coup, position, args.idul, SECRET)
             except (RuntimeError, PermissionError):
                 try:
-                    print('dans le 2e try')
                     type_coup = 'D'
                     position = list(nx.shortest_path(game.graphe, tuple(game.état['joueurs'][0]['pos']), "B1"))[1]
-                    #print(type_coup, position)
                     id_partie, état = jouer_coup(id_partie, type_coup, position, args.idul, SECRET)
                 except (StopIteration):
                     game.est_terminée()
                     break
             except (StopIteration):
-                print('3e exception')
                 game.est_terminée()
                 break
-            # Envoyer le coup au serveur
-            #id_partie, état = jouer_coup(id_partie, type_coup, position, args.idul, SECRET)
 
 
 
