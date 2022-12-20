@@ -1,5 +1,6 @@
 from quoridor import Quoridor
 import turtle
+import time
 
 class QuoridorX(Quoridor):
     """
@@ -12,16 +13,18 @@ class QuoridorX(Quoridor):
         """
 
         super().__init__(*args)
-
+        
+        self.sc = turtle.Screen()
 
     def afficher(self):
         """
         Méthode pour afficher l'état de jeu graphiquement
         """
+        
 
         # Créer un objet screen
-        sc = turtle.Screen()
-        sc.title('Jeu Quoridor')
+        #sc.title('Jeu Quoridor')
+        self.sc.title('Jeu Quoridor')
         turtle.bgcolor('light salmon')
 
 
@@ -34,10 +37,32 @@ class QuoridorX(Quoridor):
 
 
         # Tortue pour les joueurs
-        dbitch3 = turtle.Turtle()        # Joueur 1
-        dbitch4 = turtle.Turtle()        # Joueur 2
-        dbitch3.color('black', 'royal blue')
-        dbitch4.color('black', 'orange red')
+        #dbitch3 = turtle.Turtle()        # Joueur 1
+        #dbitch4 = turtle.Turtle()        # Joueur 2
+        #dbitch3.color('black', 'royal blue')
+        #dbitch4.color('black', 'orange red')
+
+        self.dbitch3 = turtle.Turtle()
+        self.dbitch3.color('black', 'royal blue')
+        self.dbitch3.hideturtle()
+        self.dbitch3.penup()
+        self.dbitch3.setpos(-225, -275)
+        self.dbitch3.goto((self.état['joueurs'][0]['pos'][0]*50)-251, (self.état['joueurs'][0]['pos'][1]*50)-314)
+        self.dbitch3.pendown()
+        self.dbitch3.begin_fill()
+        self.dbitch3.circle(15)
+        self.dbitch3.end_fill()
+
+        self.dbitch4 = turtle.Turtle()
+        self.dbitch4.color('black', 'orange red')
+        self.dbitch4.hideturtle()
+        self.dbitch4.penup()
+        self.dbitch4.setpos(-225, -275)
+        self.dbitch4.goto((self.état['joueurs'][1]['pos'][0]*50)-251, (self.état['joueurs'][1]['pos'][1]*50)-314)
+        self.dbitch4.pendown()
+        self.dbitch4.begin_fill()
+        self.dbitch4.circle(15)
+        self.dbitch4.end_fill()
 
         # Tortue pour les murs horizontaux
         dbitch5 = turtle.Turtle()
@@ -54,18 +79,20 @@ class QuoridorX(Quoridor):
         # Tortue pour la légende
         dbitch7 = turtle.Turtle()
 
- 
+        
         # Créer l'écran
-        sc.setup(700, 850)
-        sc.tracer(n=2)
+        #sc.setup(700, 850)
+        self.sc.setup(700, 850)
+        #sc.tracer(n=0)
+        self.sc.tracer(n=0)
 
 
         # Centrer le dessin dans l'écran et relocaliser les tortues à la nouvelle origine
 
         dbitch1.hideturtle()
         dbitch2.hideturtle()
-        dbitch3.hideturtle()
-        dbitch4.hideturtle()
+        #dbitch3.hideturtle()
+        #dbitch4.hideturtle()
         dbitch5.hideturtle()
         dbitch6.hideturtle()
         dbitch7.hideturtle()
@@ -76,18 +103,18 @@ class QuoridorX(Quoridor):
         dbitch2.penup()
         dbitch2.setpos(-225, -275)
 
-        dbitch3.penup()
-        dbitch3.setpos(-225, -275)
+        #dbitch3.penup()
+        #dbitch3.setpos(-225, -275)
 
-        dbitch4.penup()
-        dbitch4.setpos(-225, -275)
+        #dbitch4.penup()
+        #dbitch4.setpos(-225, -275)
         
         dbitch7.penup()
         dbitch7.setpos(-225, -275)
 
 
         # COMMENCEMENT DU DESSIN
-
+        
         # dbitch1 trace les rectangles horizontaux
 
         for i in range(9):
@@ -153,22 +180,24 @@ class QuoridorX(Quoridor):
 
 
         # dbitch3 place le joueur 1
+        #dbitch3.penup()
+        #dbitch3.goto((self.état['joueurs'][0]['pos'][0]*50)-251, (self.état['joueurs'][0]['pos'][1]*50)-314)
+        #dbitch3.pendown()
+        #dbitch3.begin_fill()
+        #dbitch3.circle(15)
+        #dbitch3.end_fill()
 
-        dbitch3.penup()
-        dbitch3.goto((self.état['joueurs'][0]['pos'][0]*50)-251, (self.état['joueurs'][0]['pos'][1]*50)-314)
-        dbitch3.pendown()
-        dbitch3.begin_fill()
-        dbitch3.circle(15)
-        dbitch3.end_fill()
-
-        # dbitch3 place le joueur 2
-
-        dbitch4.penup()
-        dbitch4.goto((self.état['joueurs'][1]['pos'][0]*50)-251, (self.état['joueurs'][1]['pos'][1]*50)-314)
-        dbitch4.pendown()
-        dbitch4.begin_fill()
-        dbitch4.circle(15)
-        dbitch4.end_fill()
+        #time.sleep(1)
+        
+        # dbitch4 place le joueur 2
+        #dbitch4.penup()
+        #dbitch4.goto((self.état['joueurs'][1]['pos'][0]*50)-251, (self.état['joueurs'][1]['pos'][1]*50)-314)
+        #dbitch4.pendown()
+        #dbitch4.begin_fill()
+        #dbitch4.circle(15)
+        #dbitch4.end_fill()
+        
+        #time.sleep(1)
 
 
         # dbitch4 place les murs horizontaux
@@ -195,35 +224,50 @@ class QuoridorX(Quoridor):
             dbitch6.penup()
 
 
-        if len(self.état['joueurs'][0]['nom']) >= len(self.état['joueurs'][1]['nom']):
-            c_1 = 1
-            c_2 = len(self.état['joueurs'][0]['nom']) - len(self.état['joueurs'][1]['nom']) + 1
-        else:
-            c_1 = len(self.état['joueurs'][1]['nom']) - len(self.état['joueurs'][0]['nom']) + 1
-            c_2 = 1
-
-        k_1 = 10-self.état['joueurs'][0]['murs']
-        k_2 = 10-self.état['joueurs'][1]['murs']
-
         dbitch7.left(180)
         dbitch7.forward(40)
         dbitch7.right(90)
         dbitch7.forward(470)
         dbitch7.pendown()
 
-        dbitch7.write(f"Légende:\n\n1={self.état['joueurs'][0]['nom']},{c_1*' '}murs={self.état['joueurs'][0]['murs']*'|'}{(k_1-1)*' '} (royal blue)\n\n2={self.état['joueurs'][1]['nom']},{c_2*' '}murs={self.état['joueurs'][1]['murs']*'|'}{(k_2-1)*' '} (orange red)\n", font=("Monaco", 18, "normal"))
+        #dbitch7.write(self.formater_légende(), font=("Monaco", 18, "normal"))
+        dbitch7.write(f"Légende:\n\nRoyal Blue = {self.état['joueurs'][0]['nom']}\n\nOrange Red = {self.état['joueurs'][1]['nom']}\n", font=("Monaco", 18, "normal"))
 
-        move = sc.textinput("Quel type de coup voulez-vous jouer?", "(D, MH, MV)")
+        self.dbitch3.clear()
+        self.dbitch4.clear()
 
-        if move in ['D', 'MH' 'MV']:
+        #move = sc.textinput("Quel type de coup voulez-vous jouer?", "(D, MH, MV)")
+        #position2 = []
+        #if move in ['D', 'MH' 'MV']:
             
-            position2 = sc.textinput("À quelle position voulez-vous jouer?", "(x, y)")
-            print(move, position2)
+        #    position1 = sc.textinput("À quelle position voulez-vous jouer?", "(x, y)")
+            
+        #    position2.append(int(position1[0]))
+        #    position2.append(int(position1[2]))
 
-        turtle.Screen().exitonclick()
+        
+        
+        #return (move, position2)
 
-        return move, position2
+    def effacer(self):
+        """
+        Méthode pour afficher l'état de jeu graphiquement
+        """
+        self.dbitch3.clear()
+        self.dbitch4.clear()
 
+    def demander_coup(self):
+
+        move = self.sc.textinput("Quel type de coup voulez-vous jouer?", "(D, MH, MV)")
+
+        position2 = []
+        if move in ('D', 'MH', 'MV'):
+            position1 = self.sc.textinput("À quelle position voulez-vous jouer?", "(x, y)")
+
+            position2.append(int(position1[0]))
+            position2.append(int(position1[2]))
+
+        return (move, position2)
 
 #x = QuoridorX([{"nom": "Alfred", "murs": 6, "pos": [5, 5]}, {"nom": "Robin", "murs": 3, "pos": [8, 6]}], {"horizontaux": [[4, 4], [2, 6], [3, 8], [5, 8], [7, 8], [5, 5]], "verticaux": [[6, 2], [4, 4], [2, 6], [7, 5], [7, 7]]})
 #x.afficher()
