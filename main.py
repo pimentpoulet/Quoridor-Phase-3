@@ -51,20 +51,25 @@ if __name__ == "__main__":
                     type_coup = 'D'
                     position = list(nx.shortest_path(game.graphe, tuple(game.état['joueurs'][0]['pos']), "B1"))[1]
                     id_partie, état = jouer_coup(id_partie, type_coup, position, args.idul, SECRET)
+
                     # A VOIR
-                    game.effacer()
+#                    game.effacer()
 
                 except (StopIteration):
                     turtle.Screen().exitonclick()
+ 
                     # A VOIR
-                    game.effacer()
+#                    game.effacer()
+ 
                     game.est_terminée()
                     break
 
             except (StopIteration):                
                 turtle.Screen().exitonclick()
+                
                 # A VOIR
-                game.effacer()
+#                game.effacer()
+
                 game.est_terminée()
                 break
 
@@ -147,8 +152,9 @@ if __name__ == "__main__":
             #position2.append(int(position1[0]))
             #position2.append(int(position1[2]))
 
+            game.afficher()
 
-            move, position = game.afficher()
+            move, position = game.demander_coup()
 
             if move == 'D':
                 game.déplacer_jeton(1, position)
@@ -160,6 +166,8 @@ if __name__ == "__main__":
             game.état = game.vérification(game.état['joueurs'], game.état['murs'])
 
             id_partie, game.état = jouer_coup(id_partie, move, position, args.idul, SECRET,)
+
+            game.effacer()
 
         #id_partie, état = débuter_partie(args.idul, SECRET)
 

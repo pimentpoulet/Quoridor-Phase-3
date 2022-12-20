@@ -223,16 +223,6 @@ class QuoridorX(Quoridor):
             dbitch6.setheading(0)
             dbitch6.penup()
 
-        # C'EST UTILE CA ????????? ************************
-        if len(self.état['joueurs'][0]['nom']) >= len(self.état['joueurs'][1]['nom']):
-            c_1 = 1
-            c_2 = len(self.état['joueurs'][0]['nom']) - len(self.état['joueurs'][1]['nom']) + 1
-        else:
-            c_1 = len(self.état['joueurs'][1]['nom']) - len(self.état['joueurs'][0]['nom']) + 1
-            c_2 = 1
-
-        k_1 = 10-self.état['joueurs'][0]['murs']
-        k_2 = 10-self.état['joueurs'][1]['murs']
 
         dbitch7.left(180)
         dbitch7.forward(40)
@@ -240,11 +230,11 @@ class QuoridorX(Quoridor):
         dbitch7.forward(470)
         dbitch7.pendown()
 
+        #dbitch7.write(self.formater_légende(), font=("Monaco", 18, "normal"))
         dbitch7.write(f"Légende:\n\nRoyal Blue = {self.état['joueurs'][0]['nom']}\n\nOrange Red = {self.état['joueurs'][1]['nom']}\n", font=("Monaco", 18, "normal"))
 
-        #dbitch3.clear()
-        #dbitch4.clear()
-
+        self.dbitch3.clear()
+        self.dbitch4.clear()
 
         #move = sc.textinput("Quel type de coup voulez-vous jouer?", "(D, MH, MV)")
         #position2 = []
@@ -258,12 +248,26 @@ class QuoridorX(Quoridor):
         
         
         #return (move, position2)
+
     def effacer(self):
         """
         Méthode pour afficher l'état de jeu graphiquement
         """
         self.dbitch3.clear()
         self.dbitch4.clear()
+
+    def demander_coup(self):
+
+        move = self.sc.textinput("Quel type de coup voulez-vous jouer?", "(D, MH, MV)")
+
+        position2 = []
+        if move in ('D', 'MH', 'MV'):
+            position1 = self.sc.textinput("À quelle position voulez-vous jouer?", "(x, y)")
+
+            position2.append(int(position1[0]))
+            position2.append(int(position1[2]))
+
+        return (move, position2)
 
 #x = QuoridorX([{"nom": "Alfred", "murs": 6, "pos": [5, 5]}, {"nom": "Robin", "murs": 3, "pos": [8, 6]}], {"horizontaux": [[4, 4], [2, 6], [3, 8], [5, 8], [7, 8], [5, 5]], "verticaux": [[6, 2], [4, 4], [2, 6], [7, 5], [7, 7]]})
 #x.afficher()
