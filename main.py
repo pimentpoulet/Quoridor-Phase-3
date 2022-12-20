@@ -32,13 +32,18 @@ if __name__ == "__main__":
 
             # Afficher la partie
             game.afficher()
-            turtle.mainloop()            
+            #time.sleep(3)
+            #turtle.clearscreen()
+            #game.dbitch3.clear()
+            #turtle.mainloop()            
             #time.sleep(5)
             
             # Le joueur joue son meilleur coup
             try:
                 type_coup, position = game.jouer_le_coup()
                 id_partie, état = jouer_coup(id_partie, type_coup, position, args.idul, SECRET)
+                # A VOIR
+                game.effacer()
 
             except (RuntimeError, PermissionError):
 
@@ -46,13 +51,20 @@ if __name__ == "__main__":
                     type_coup = 'D'
                     position = list(nx.shortest_path(game.graphe, tuple(game.état['joueurs'][0]['pos']), "B1"))[1]
                     id_partie, état = jouer_coup(id_partie, type_coup, position, args.idul, SECRET)
+                    # A VOIR
+                    game.effacer()
 
                 except (StopIteration):
+                    turtle.Screen().exitonclick()
+                    # A VOIR
+                    game.effacer()
                     game.est_terminée()
                     break
 
             except (StopIteration):                
                 turtle.Screen().exitonclick()
+                # A VOIR
+                game.effacer()
                 game.est_terminée()
                 break
 
