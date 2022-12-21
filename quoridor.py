@@ -153,11 +153,11 @@ class Quoridor:
             c_1 = len(self.état['joueurs'][1]['nom']) - len(self.état['joueurs'][0]['nom']) + 1
             c_2 = 1
 
-        légende_1 = f"Légende:\n   1={self.état['joueurs'][0]['nom']},{c_1*' '}murs="
-        f"{self.état['joueurs'][0]['murs']*'|'}\n"
+        légende_1 = (f"Légende:\n   1={self.état['joueurs'][0]['nom']},{c_1*' '}murs="
+        f"{self.état['joueurs'][0]['murs']*'|'}\n")
 
-        légende_2 = f"   2={self.état['joueurs'][1]['nom']},{c_2*' '}murs="
-        f"{self.état['joueurs'][1]['murs']*'|'}\n"
+        légende_2 = (f"   2={self.état['joueurs'][1]['nom']},{c_2*' '}murs="
+        f"{self.état['joueurs'][1]['murs']*'|'}\n")
 
         return légende_1 + légende_2
 
@@ -510,4 +510,3 @@ class Quoridor:
             meilleure_pos = sp_1[1]
 
         return (meilleur_type, meilleure_pos)
-
