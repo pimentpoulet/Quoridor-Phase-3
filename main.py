@@ -25,9 +25,9 @@ if __name__ == "__main__":
     if args.automatique and args.graphique:
     # Mode automatique avec affichage
         id_partie, état = débuter_partie(args.idul, SECRET)
-        
+
         while True:
-            
+
             game = QuoridorX(état['joueurs'], état['murs'])
 
             # Afficher la partie
@@ -35,9 +35,9 @@ if __name__ == "__main__":
             #time.sleep(3)
             #turtle.clearscreen()
             #game.dbitch3.clear()
-            #turtle.mainloop()            
+            #turtle.mainloop()
             #time.sleep(5)
-            
+
             # Le joueur joue son meilleur coup
             try:
                 type_coup, position = game.jouer_le_coup()
@@ -49,24 +49,25 @@ if __name__ == "__main__":
 
                 try:
                     type_coup = 'D'
-                    position = list(nx.shortest_path(game.graphe, tuple(game.état['joueurs'][0]['pos']), "B1"))[1]
+                    position = list(nx.shortest_path(game.graphe,
+                     tuple(game.état['joueurs'][0]['pos']), "B1"))[1]
                     id_partie, état = jouer_coup(id_partie, type_coup, position, args.idul, SECRET)
 
                     # A VOIR
 #                    game.effacer()
 
-                except (StopIteration):
+                except StopIteration:
                     turtle.Screen().exitonclick()
- 
+
                     # A VOIR
 #                    game.effacer()
- 
+
                     game.est_terminée()
                     break
 
-            except (StopIteration):                
+            except StopIteration:
                 turtle.Screen().exitonclick()
-                
+
                 # A VOIR
 #                game.effacer()
 
@@ -85,7 +86,8 @@ if __name__ == "__main__":
     #            try:
      #               print('dans le 2e try')
       #              type_coup = 'D'
-       #             position = list(nx.shortest_path(game.graphe, tuple(game.état['joueurs'][0]['pos']), "B1"))[1]
+       #             position = list(nx.shortest_path(game.graphe,
+       #                         tuple(game.état['joueurs'][0]['pos']), "B1"))[1]
                     #print(type_coup, position)
         #            id_partie, état = jouer_coup(id_partie, type_coup, position, args.idul, SECRET)
          #       except (StopIteration):
@@ -105,7 +107,8 @@ if __name__ == "__main__":
                 #print('dans le except')
                 #try:
                 #    type_coup = 'D'
-                #    position = list(nx.shortest_path(game.graphe, tuple(game.état['joueurs'][0]['pos']), "B1"))[1]
+                #    position = list(nx.shortest_path(game.graphe,
+                #                tuple(game.état['joueurs'][0]['pos']), "B1"))[1]
                 #    id_partie, état = jouer_coup(id_partie, type_coup, position, args.idul, SECRET)
                 #except:
                 #    print('dans le  2e except')
@@ -118,11 +121,12 @@ if __name__ == "__main__":
                 #else:
                 #    print('Je deplace')
                 #    type_coup = 'D'
-                #    position = list(nx.shortest_path(game.graphe, tuple(game.état['joueurs'][0]['pos']), "B1"))[1]
+                #    position = list(nx.shortest_path(game.graphe,
+                #                tuple(game.état['joueurs'][0]['pos']), "B1"))[1]
                 #    id_partie, état = jouer_coup(id_partie, type_coup, position, args.idul, SECRET)
             #print(type_coup, position)
             # Envoyer le coup au serveur
-            
+
 
 
             #id_partie, état = jouer_coup(id_partie, type_coup, position, args.idul, SECRET)
@@ -146,9 +150,9 @@ if __name__ == "__main__":
 
             #position2 = []
             #if move in ['D', 'MH' 'MV']:
-            
+
             #position1 = sc.textinput("À quelle position voulez-vous jouer?", "(x, y)")
-            
+
             #position2.append(int(position1[0]))
             #position2.append(int(position1[2]))
 
@@ -202,16 +206,17 @@ if __name__ == "__main__":
             except (RuntimeError, PermissionError):
                 try:
                     type_coup = 'D'
-                    position = list(nx.shortest_path(game.graphe, tuple(game.état['joueurs'][0]['pos']), "B1"))[1]
+                    position = list(nx.shortest_path(game.graphe,
+                     tuple(game.état['joueurs'][0]['pos']), "B1"))[1]
                     id_partie, état = jouer_coup(id_partie, type_coup, position, args.idul, SECRET)
-                except (StopIteration):
+                except StopIteration:
                     game.est_terminée()
                     break
-            except (StopIteration):
+            except StopIteration:
                 game.est_terminée()
                 break
 
-        
+
     else:
     # Mode par défaut : manuel, sans affichage
         # Implémenter la boucle pour jouer contre le bot du serveur
@@ -242,4 +247,3 @@ if __name__ == "__main__":
         "verticaux": [[6, 2], [4, 4], [2, 6], [7, 5], [7, 7]],
     },
 }
-#test

@@ -36,7 +36,8 @@ class Quoridor:
         """
         self.état = deepcopy(self.vérification(joueurs, murs))
         # Construit le graphe du jeu
-        self.graphe = construire_graphe([self.état['joueurs'][0]['pos'], self.état['joueurs'][1]['pos']],
+        self.graphe = construire_graphe([self.état['joueurs'][0]['pos'],
+            self.état['joueurs'][1]['pos']],
             self.état['murs']['horizontaux'], self.état['murs']['verticaux'])
 
 
@@ -102,7 +103,8 @@ class Quoridor:
                         pass
                     if element['murs'] < 0 or element['murs'] > 10:
                         raise QuoridorError(
-                            "Le nombre de murs qu'un joueur peut placer est plus grand que 10 ou négatif."
+                            "Le nombre de murs qu'un joueur peut placer "
+                            "est plus grand que 10 ou négatif."
                             )
 
         # Test 6 : Total murs
@@ -151,9 +153,11 @@ class Quoridor:
             c_1 = len(self.état['joueurs'][1]['nom']) - len(self.état['joueurs'][0]['nom']) + 1
             c_2 = 1
 
-        légende_1 = f"Légende:\n   1={self.état['joueurs'][0]['nom']},{c_1*' '}murs={self.état['joueurs'][0]['murs']*'|'}\n"
+        légende_1 = f"Légende:\n   1={self.état['joueurs'][0]['nom']},{c_1*' '}murs="
+        f"{self.état['joueurs'][0]['murs']*'|'}\n"
 
-        légende_2 = f"   2={self.état['joueurs'][1]['nom']},{c_2*' '}murs={self.état['joueurs'][1]['murs']*'|'}\n"
+        légende_2 = f"   2={self.état['joueurs'][1]['nom']},{c_2*' '}murs="
+        f"{self.état['joueurs'][1]['murs']*'|'}\n"
 
         return légende_1 + légende_2
 
@@ -470,13 +474,15 @@ class Quoridor:
         if self.est_terminée is False:
             raise QuoridorError('La partie est déjà terminée.')
 
-        
+
         # TROISIEME ITERATION
-        #si la longueur de son shortest path est <= 10 et qu'il reste des murs et que son sp est + petit que moi, on met un mur
+        #si la longueur de son shortest path est <= 10 et qu'il reste des murs
+        #  et que son sp est + petit que moi, on met un mur
         if len(sp_2) <= len(sp_1)+1 and nb_murs > 0 and len(sp_2) <= 10:
             # si son prochain move du sp1 est vertical:
             if sp_2[1][1] != sp_2[0][1] and sp_2[1] not in sp_1[:2]:
-                # si [x+1, y+1] du sp1 est libre et n'est pas dans mon sp, on place un mur horizontal en [x, y+1]
+                # si [x+1, y+1] du sp1 est libre et n'est pas dans mon sp, on
+                #  place un mur horizontal en [x, y+1]
                 # sauf si la position en x est 9, on le place en [x-1, y+1]
                 if sp_2[1][0] == 9:
                     meilleur_type = 'MH'
@@ -488,7 +494,7 @@ class Quoridor:
             elif sp_2[0][0] < sp_2[1][0] and sp_2[1] not in sp_1[:2]:
                 # si [x, y-1] du sp1 est libre, on place un mur vertical en [x, y-1] du sp1
                 meilleur_type = 'MV'
-                meilleure_pos = [sp_2[1][0], sp_2[1][1]-1]       
+                meilleure_pos = [sp_2[1][0], sp_2[1][1]-1]
             # sinon (move horizontal a gauche)
             else:
                 if sp_2[1] not in sp_1[:2]:
@@ -504,49 +510,4 @@ class Quoridor:
             meilleure_pos = sp_1[1]
 
         return (meilleur_type, meilleure_pos)
-
-
-
-        # PREMIERE ITERATION
-        #si shortest path du robot = déplacement vertical, on met un mur horziontal
-        #if sp_2[1][1] != sp_2[0][1] and nb_murs > 0 and len(sp_2) < len(sp_1) :#and len(sp_2) <= 5:
-            #for i in sp_2[1:-1]:
-        #        #print(i)
-        #        if [i[0], i[1]+1] not in pmurs_h and [i[0]+1, i[1]+1] not in taken and i[0] < 9 and i[0] >= 1 and i[1] <= 8 and i not in sp_1:
-        #            if i[0] == 9 or [i[0]+1, i[1]] in taken:
-        #                meilleur_type = 'MH'
-        #                meilleure_pos = [i[0]-1, i[1]+1]
-        #                break
-        #            else: 
-        #                meilleur_type = 'MH'
-        #                meilleure_pos = [i[0], i[1]+1]
-        #                break
-        #        else:
-        #            continue
-        ## Sinon, si shortest path du robot = déplacement horizontal, on met un mur vertical :
-        ## Déplacement vers la droite
-        #elif sp_2[1][0] > sp_2[0][0] and nb_murs > 0 and len(sp_2) < len(sp_1) :#and len(sp_2) <= 10:
-        #    for i in sp_2[1:-1]:
-        ##        print(i)
-        #        if [i[0]+1, i[1]] not in pmurs_v and [i[0]+1, i[1]+1] not in taken and i[1] < 9 and i[1] >= 1 and i[0] <= 8 and i not in sp_1:
-        #            meilleur_type = 'MV'
-        #            meilleure_pos = [i[0]+1, i[1]]
-        #            break
-        #        else:
-        #            continue
-        ### Déplacement vers la gauche
-        #elif sp_2[1][0] < sp_2[0][0] and nb_murs > 0 and len(sp_2) < len(sp_1) :#and len(sp_2) <= 10:
-        #    for i in sp_2[1:-1]:
-        ##        print(i)
-        #        if [i[0]+1, i[1]] not in pmurs_v and [i[0]+1, i[1]+1] not in taken and i[1] < 9 and i[1] >= 1 and i[0] <= 8 and i not in sp_1:
-        #            meilleur_type = 'MV'
-        #            meilleure_pos = [i[0]+1, i[1]]
-        #            break
-        #        else:
-        #            continue
-        #else:
-        #    meilleur_type = 'D'
-        #    meilleure_pos = list(sp_1[1])
-       # 
-       # return (meilleur_type, meilleure_pos)
 

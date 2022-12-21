@@ -16,7 +16,8 @@ def analyser_commande():
                     et « local » qui est un booléen `True`/`False`.
     """
     parser = argparse.ArgumentParser(description="Jeu Quoridor - phase 3")
-    parser.add_argument('-a', '--automatique', action = 'store_true', help='Activer le mode automatique')
+    parser.add_argument('-a', '--automatique', action = 'store_true', 
+    help='Activer le mode automatique')
     parser.add_argument('-x', "--graphique", action='store_true', help='Activer le mode graphique')
     parser.add_argument('idul', help='IDUL du joueur')
 
